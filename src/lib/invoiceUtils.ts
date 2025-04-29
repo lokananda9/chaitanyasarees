@@ -71,7 +71,7 @@ export const sendViaWhatsApp = (
     contactId: profile.contactId,
     contactName: profile.name,
     date: new Date().toISOString(),
-    type: format,
+    type: 'message',
     content: `Invoice sent via WhatsApp (${format})`,
     products: selectedProducts
   });

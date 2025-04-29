@@ -31,4 +31,4 @@ export interface TransactionLog {
   products?: Product[];
 }
 
-export type InvoiceFormat = 'text' | 'pdf' | 'image';
+export type InvoiceFormat = 'message' | 'pdf' | 'image';

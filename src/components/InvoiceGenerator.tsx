@@ -7,7 +7,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ContactProfile, Product, InvoiceFormat } from '@/lib/types';
 import { generateInvoiceText, sendViaWhatsApp } from '@/lib/invoiceUtils';
-import { Send, FileText, Share, WhatsApp } from "lucide-react";
+import { Send, FileText, Share, MessageSquare } from "lucide-react";
 
 interface InvoiceGeneratorProps {
   profile: ContactProfile;
@@ -199,7 +199,7 @@ const InvoiceGenerator = ({ profile, onInvoiceSent }: InvoiceGeneratorProps) => 
               onClick={handleSendViaWhatsApp}
               className="bg-green-600 hover:bg-green-700 text-white"
             >
-              <WhatsApp className="w-4 h-4 mr-2" />
+              <MessageSquare className="w-4 h-4 mr-2" />
               Send via WhatsApp
             </Button>
           </CardFooter>
