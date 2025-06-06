@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -16,7 +15,7 @@ interface InvoiceGeneratorProps {
 
 const InvoiceGenerator = ({ profile, onInvoiceSent }: InvoiceGeneratorProps) => {
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
-  const [selectedFormat, setSelectedFormat] = useState<InvoiceFormat>('text');
+  const [selectedFormat, setSelectedFormat] = useState<InvoiceFormat>('message');
   const [previewVisible, setPreviewVisible] = useState(false);
 
   const handleSelectProduct = (product: Product) => {
@@ -157,13 +156,13 @@ const InvoiceGenerator = ({ profile, onInvoiceSent }: InvoiceGeneratorProps) => 
             <CardTitle className="text-lg">Invoice Preview</CardTitle>
           </CardHeader>
           <CardContent>
-            <Tabs defaultValue="text" onValueChange={(v) => setSelectedFormat(v as InvoiceFormat)}>
+            <Tabs defaultValue="message" onValueChange={(v) => setSelectedFormat(v as InvoiceFormat)}>
               <TabsList className="grid w-full grid-cols-3 mb-4">
-                <TabsTrigger value="text">Text</TabsTrigger>
+                <TabsTrigger value="message">Message</TabsTrigger>
                 <TabsTrigger value="pdf" disabled>PDF</TabsTrigger>
                 <TabsTrigger value="image" disabled>Image</TabsTrigger>
               </TabsList>
-              <TabsContent value="text" className="mt-0">
+              <TabsContent value="message" className="mt-0">
                 <div className="bg-gray-50 p-4 rounded-md whitespace-pre-wrap font-mono text-sm">
                   {invoiceText}
                 </div>
