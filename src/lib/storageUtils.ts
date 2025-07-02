@@ -181,3 +181,22 @@ export const addContact = (contact: Omit<Contact, 'id'>): boolean => {
   localStorage.setItem(CONTACTS_KEY, JSON.stringify(contacts));
   return true;
 };
+
+// Delete contact function
+export const deleteContact = (contactId: string): boolean => {
+  const contacts = getContacts();
+  const updatedContacts = contacts.filter(contact => contact.id !== contactId);
+  localStorage.setItem(CONTACTS_KEY, JSON.stringify(updatedContacts));
+  
+  // Also remove associated profile if exists
+  const profiles = getProfiles();
+  const updatedProfiles = profiles.filter(profile => profile.contactId !== contactId);
+  localStorage.setItem(PROFILES_KEY, JSON.stringify(updatedProfiles));
+  
+  // Also remove associated transaction logs
+  const logs = getLogs();
+  const updatedLogs = logs.filter(log => log.contactId !== contactId);
+  localStorage.setItem(LOGS_KEY, JSON.stringify(updatedLogs));
+  
+  return true;
+};

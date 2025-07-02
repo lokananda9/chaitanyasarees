@@ -32,8 +32,6 @@ const ContactList = () => {
   
   return (
     <div className="w-full max-w-md mx-auto">
-      <AddContactForm onContactAdded={fetchContacts} />
-      
       <div className="relative mb-4">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
         <Input
@@ -44,7 +42,7 @@ const ContactList = () => {
         />
       </div>
       
-      <div className="space-y-2">
+      <div className="space-y-2 mb-4">
         {isLoading ? (
           <div className="text-center py-8">Loading contacts...</div>
         ) : contacts.length > 0 ? (
@@ -61,6 +59,8 @@ const ContactList = () => {
           </div>
         )}
       </div>
+      
+      <AddContactForm onContactAdded={fetchContacts} />
     </div>
   );
 };
