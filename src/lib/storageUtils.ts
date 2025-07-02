@@ -1,59 +1,14 @@
 
 import { Contact, ContactProfile, Product, TransactionLog } from './types';
 
-// Mock data for contacts
-const MOCK_CONTACTS: Contact[] = [
-  { id: '1', name: 'John Doe', phoneNumber: '+1234567890', profileCreated: true },
-  { id: '2', name: 'Jane Smith', phoneNumber: '+1987654321', profileCreated: false },
-  { id: '3', name: 'Bob Johnson', phoneNumber: '+1122334455', profileCreated: true },
-  { id: '4', name: 'Alice Williams', phoneNumber: '+1555666777', profileCreated: false },
-  { id: '5', name: 'Charlie Brown', phoneNumber: '+1999888777', profileCreated: false }
-];
+// Initial empty contacts array
+const MOCK_CONTACTS: Contact[] = [];
 
-// Mock profiles
-const MOCK_PROFILES: ContactProfile[] = [
-  {
-    id: '1',
-    contactId: '1',
-    name: 'John Doe',
-    phoneNumber: '+1234567890',
-    products: [
-      { id: '1', name: 'Laptop', price: 1200, paidAmount: 500 },
-      { id: '2', name: 'Mouse', price: 25, paidAmount: 25 }
-    ]
-  },
-  {
-    id: '2',
-    contactId: '3',
-    name: 'Bob Johnson',
-    phoneNumber: '+1122334455',
-    products: [
-      { id: '3', name: 'Monitor', price: 300, paidAmount: 150 }
-    ]
-  }
-];
+// Initial empty profiles array
+const MOCK_PROFILES: ContactProfile[] = [];
 
-// Mock transaction logs
-const MOCK_LOGS: TransactionLog[] = [
-  {
-    id: '1',
-    contactId: '1',
-    contactName: 'John Doe',
-    date: '2025-04-25T14:30:00',
-    type: 'message',
-    content: 'Invoice sent for Laptop ($1200)',
-    products: [{ id: '1', name: 'Laptop', price: 1200, paidAmount: 500 }]
-  },
-  {
-    id: '2',
-    contactId: '3',
-    contactName: 'Bob Johnson',
-    date: '2025-04-24T10:15:00',
-    type: 'pdf',
-    content: 'Invoice PDF sent for Monitor ($300)',
-    products: [{ id: '3', name: 'Monitor', price: 300, paidAmount: 150 }]
-  }
-];
+// Initial empty transaction logs
+const MOCK_LOGS: TransactionLog[] = [];
 
 // Local Storage Keys
 const CONTACTS_KEY = 'quickbill_contacts';
@@ -211,4 +166,18 @@ export const searchLogs = (query: string): TransactionLog[] => {
       log.contactName.toLowerCase().includes(lowerQuery) || 
       log.content.toLowerCase().includes(lowerQuery)
   );
+};
+
+// Add new contact function
+export const addContact = (contact: Omit<Contact, 'id'>): boolean => {
+  const contacts = getContacts();
+  const newContact: Contact = {
+    id: Date.now().toString(),
+    ...contact,
+    profileCreated: false
+  };
+  
+  contacts.push(newContact);
+  localStorage.setItem(CONTACTS_KEY, JSON.stringify(contacts));
+  return true;
 };

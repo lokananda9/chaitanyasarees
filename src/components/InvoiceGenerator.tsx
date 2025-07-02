@@ -159,30 +159,129 @@ const InvoiceGenerator = ({ profile, onInvoiceSent }: InvoiceGeneratorProps) => 
             <Tabs defaultValue="message" onValueChange={(v) => setSelectedFormat(v as InvoiceFormat)}>
               <TabsList className="grid w-full grid-cols-3 mb-4">
                 <TabsTrigger value="message">Message</TabsTrigger>
-                <TabsTrigger value="pdf" disabled>PDF</TabsTrigger>
-                <TabsTrigger value="image" disabled>Image</TabsTrigger>
+                <TabsTrigger value="pdf">PDF</TabsTrigger>
+                <TabsTrigger value="image">Image</TabsTrigger>
               </TabsList>
               <TabsContent value="message" className="mt-0">
                 <div className="bg-gray-50 p-4 rounded-md whitespace-pre-wrap font-mono text-sm">
                   {invoiceText}
                 </div>
+                <Button 
+                  variant="outline" 
+                  className="mt-2"
+                  onClick={() => {
+                    navigator.clipboard.writeText(invoiceText);
+                    toast({
+                      title: 'Copied!',
+                      description: 'Message copied to clipboard',
+                      duration: 2000,
+                    });
+                  }}
+                >
+                  Copy Message
+                </Button>
               </TabsContent>
               <TabsContent value="pdf" className="mt-0">
                 <div className="bg-gray-50 p-4 rounded-md">
-                  <p className="text-center text-gray-500 py-8">
-                    PDF preview would be displayed here.
-                    <br />
-                    (Requires additional libraries)
-                  </p>
+                  <div className="bg-white p-6 rounded border" style={{fontFamily: 'monospace', fontSize: '12px'}}>
+                    <div style={{textAlign: 'center', marginBottom: '20px'}}>
+                      <h2 style={{fontSize: '18px', fontWeight: 'bold'}}>CHAITANYA SAREES</h2>
+                      <p>INVOICE</p>
+                    </div>
+                    <div style={{marginBottom: '20px'}}>
+                      <p><strong>Bill To:</strong> {profile.name}</p>
+                      <p><strong>Phone:</strong> {profile.phoneNumber}</p>
+                      <p><strong>Date:</strong> {new Date().toLocaleDateString()}</p>
+                    </div>
+                    <table style={{width: '100%', borderCollapse: 'collapse', marginBottom: '20px'}}>
+                      <thead>
+                        <tr style={{borderBottom: '1px solid #000'}}>
+                          <th style={{textAlign: 'left', padding: '8px'}}>Item</th>
+                          <th style={{textAlign: 'right', padding: '8px'}}>Price</th>
+                          <th style={{textAlign: 'right', padding: '8px'}}>Paid</th>
+                          <th style={{textAlign: 'right', padding: '8px'}}>Balance</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedProducts.map(product => (
+                          <tr key={product.id} style={{borderBottom: '1px solid #ccc'}}>
+                            <td style={{padding: '8px'}}>{product.name}</td>
+                            <td style={{textAlign: 'right', padding: '8px'}}>${product.price.toFixed(2)}</td>
+                            <td style={{textAlign: 'right', padding: '8px'}}>${product.paidAmount.toFixed(2)}</td>
+                            <td style={{textAlign: 'right', padding: '8px'}}>${(product.price - product.paidAmount).toFixed(2)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    <div style={{textAlign: 'right'}}>
+                      <p><strong>Total: ${selectedProducts.reduce((sum, p) => sum + p.price, 0).toFixed(2)}</strong></p>
+                      <p><strong>Total Paid: ${selectedProducts.reduce((sum, p) => sum + p.paidAmount, 0).toFixed(2)}</strong></p>
+                      <p><strong>Total Balance: ${selectedProducts.reduce((sum, p) => sum + (p.price - p.paidAmount), 0).toFixed(2)}</strong></p>
+                    </div>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    className="mt-2"
+                    onClick={() => {
+                      toast({
+                        title: 'Download Started',
+                        description: 'PDF download functionality would be implemented here',
+                        duration: 2000,
+                      });
+                    }}
+                  >
+                    Download PDF
+                  </Button>
                 </div>
               </TabsContent>
               <TabsContent value="image" className="mt-0">
                 <div className="bg-gray-50 p-4 rounded-md">
-                  <p className="text-center text-gray-500 py-8">
-                    Image preview would be displayed here.
-                    <br />
-                    (Requires additional libraries)
-                  </p>
+                  <div className="bg-white p-6 rounded border shadow-lg" style={{fontFamily: 'Arial, sans-serif'}}>
+                    <div className="text-center mb-6">
+                      <h1 className="text-2xl font-bold text-blue-800">CHAITANYA SAREES</h1>
+                      <p className="text-gray-600">INVOICE</p>
+                      <p className="text-sm text-gray-500">Date: {new Date().toLocaleDateString()}</p>
+                    </div>
+                    <div className="mb-6">
+                      <h3 className="font-semibold mb-2">Bill To:</h3>
+                      <p className="text-lg font-medium">{profile.name}</p>
+                      <p className="text-gray-600">{profile.phoneNumber}</p>
+                    </div>
+                    <div className="border rounded-lg overflow-hidden mb-6">
+                      <div className="bg-blue-50 p-3 font-semibold grid grid-cols-4 gap-2">
+                        <span>Item</span>
+                        <span className="text-right">Price</span>
+                        <span className="text-right">Paid</span>
+                        <span className="text-right">Balance</span>
+                      </div>
+                      {selectedProducts.map(product => (
+                        <div key={product.id} className="p-3 border-t grid grid-cols-4 gap-2">
+                          <span>{product.name}</span>
+                          <span className="text-right">${product.price.toFixed(2)}</span>
+                          <span className="text-right">${product.paidAmount.toFixed(2)}</span>
+                          <span className="text-right">${(product.price - product.paidAmount).toFixed(2)}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="text-right space-y-1">
+                      <p className="text-lg"><strong>Total: ${selectedProducts.reduce((sum, p) => sum + p.price, 0).toFixed(2)}</strong></p>
+                      <p className="text-lg"><strong>Paid: ${selectedProducts.reduce((sum, p) => sum + p.paidAmount, 0).toFixed(2)}</strong></p>
+                      <p className="text-xl font-bold text-blue-800">Balance: ${selectedProducts.reduce((sum, p) => sum + (p.price - p.paidAmount), 0).toFixed(2)}</p>
+                    </div>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    className="mt-2"
+                    onClick={() => {
+                      toast({
+                        title: 'Download Started',
+                        description: 'Image download functionality would be implemented here',
+                        duration: 2000,
+                      });
+                    }}
+                  >
+                    Download Image
+                  </Button>
                 </div>
               </TabsContent>
             </Tabs>

@@ -18,7 +18,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
       <div className="px-4 py-6 bg-white shadow-sm">
-        <h1 className="text-xl font-semibold text-center">QuickBill Connect</h1>
+        <h1 className="text-xl font-semibold text-center">Chaitanya Sarees</h1>
       </div>
       
       <div className="container max-w-md mx-auto px-4 py-6">
