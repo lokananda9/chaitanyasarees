@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/card';
 import { addProductToProfile } from '@/lib/storageUtils';
 import { toast } from '@/components/ui/use-toast';
+import DOMPurify from 'dompurify';
 
 interface NewPurchaseFormProps {
   profileId: string;
@@ -34,10 +35,12 @@ const NewPurchaseForm = ({ profileId, onProductAdded }: NewPurchaseFormProps) =>
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!productName || !price) {
+    const trimmedProductName = productName.trim();
+
+    if (!trimmedProductName || !price) {
       toast({
         title: 'Missing Fields',
-        description: 'Please fill in all required fields',
+        description: 'Please fill in all required fields (Product Name and Price)',
         variant: 'destructive',
         duration: 3000,
       });
@@ -47,6 +50,7 @@ const NewPurchaseForm = ({ profileId, onProductAdded }: NewPurchaseFormProps) =>
     setIsSubmitting(true);
     
     try {
+      const sanitizedProductName = DOMPurify.sanitize(trimmedProductName);
       const priceNumber = parseFloat(price);
       const paidNumber = paidAmount ? parseFloat(paidAmount) : 0;
       
@@ -84,7 +88,7 @@ const NewPurchaseForm = ({ profileId, onProductAdded }: NewPurchaseFormProps) =>
       }
       
       const success = addProductToProfile(profileId, {
-        name: productName,
+        name: sanitizedProductName,
         price: priceNumber,
         paidAmount: paidNumber,
       });
@@ -92,7 +96,7 @@ const NewPurchaseForm = ({ profileId, onProductAdded }: NewPurchaseFormProps) =>
       if (success) {
         toast({
           title: 'Product Added',
-          description: `Added ${productName} to profile`,
+          description: `Added ${sanitizedProductName} to profile`,
           duration: 3000,
         });
         resetForm();

@@ -2,23 +2,25 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { addContact } from '@/lib/storageUtils';
+import { useAddContact } from '@/hooks/useContacts'; // Import the hook
 import { toast } from '@/components/ui/use-toast';
 import { Plus, X } from 'lucide-react';
+import DOMPurify from 'dompurify';
 
-interface AddContactFormProps {
-  onContactAdded: () => void;
-}
-
-const AddContactForm = ({ onContactAdded }: AddContactFormProps) => {
+// onContactAdded prop is no longer needed
+const AddContactForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
+  const addContactMutation = useAddContact(); // Use the hook
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !phoneNumber.trim()) {
+    const trimmedName = name.trim();
+    const trimmedPhoneNumber = phoneNumber.trim();
+
+    if (!trimmedName || !trimmedPhoneNumber) {
       toast({
         title: 'Missing Information',
         description: 'Please enter both name and phone number',
@@ -28,30 +30,38 @@ const AddContactForm = ({ onContactAdded }: AddContactFormProps) => {
       return;
     }
 
-    setIsLoading(true);
-    try {
-      const success = addContact({ name: name.trim(), phoneNumber: phoneNumber.trim(), profileCreated: false });
-      if (success) {
-        toast({
-          title: 'Contact Added',
-          description: `${name} has been added to your contacts`,
-          duration: 3000,
-        });
-        setName('');
-        setPhoneNumber('');
-        setIsOpen(false);
-        onContactAdded();
+    const sanitizedName = DOMPurify.sanitize(trimmedName);
+    // Basic phone number validation (allow digits, +, -, spaces, parentheses)
+    // For MNC level, a more robust validation library or regex might be preferred.
+    const validatedPhoneNumber = trimmedPhoneNumber.replace(/[^0-9+\- ()]/g, '');
+
+
+    addContactMutation.mutate(
+      { name: sanitizedName, phoneNumber: validatedPhoneNumber },
+      {
+        onSuccess: () => {
+          toast({
+            title: 'Contact Added',
+            // Use sanitizedName for the toast message to be safe, though name state is also an option
+            description: `${sanitizedName} has been added to your contacts`,
+            duration: 3000,
+          });
+          setName('');
+          setPhoneNumber('');
+          setIsOpen(false);
+          // onContactAdded(); // No longer needed, query invalidation handles updates
+        },
+        onError: (error) => {
+          console.error("Error adding contact:", error);
+          toast({
+            title: 'Error',
+            description: 'Failed to add contact. Please try again.',
+            variant: 'destructive',
+            duration: 3000,
+          });
+        },
       }
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to add contact',
-        variant: 'destructive',
-        duration: 3000,
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    );
   };
 
   if (!isOpen) {
@@ -101,10 +111,10 @@ const AddContactForm = ({ onContactAdded }: AddContactFormProps) => {
           <div className="flex gap-2">
             <Button 
               type="submit" 
-              disabled={isLoading}
+              disabled={addContactMutation.isPending}
               className="flex-1 bg-brand-blue hover:bg-brand-blue/90"
             >
-              {isLoading ? 'Adding...' : 'Add Contact'}
+              {addContactMutation.isPending ? 'Adding...' : 'Add Contact'}
             </Button>
             <Button 
               type="button" 

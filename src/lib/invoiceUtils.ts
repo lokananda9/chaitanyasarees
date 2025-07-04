@@ -1,8 +1,17 @@
 import { Product, ContactProfile, InvoiceFormat } from './types';
 import { addTransactionLog } from './storageUtils';
+import DOMPurify from 'dompurify';
+
+// Configure DOMPurify to strip all HTML tags, allowing only plain text
+const sanitizePlainText = (text: string) => DOMPurify.sanitize(text, { USE_PROFILES: { html: false }, RETURN_DOM: false, RETURN_DOM_FRAGMENT: false, RETURN_TRUSTED_TYPE: false });
+
 
 export const generateInvoiceText = (profile: ContactProfile): string => {
-  const { name, products } = profile;
+  const name = sanitizePlainText(profile.name); // Sanitize name
+  const products = profile.products.map(p => ({
+    ...p,
+    name: sanitizePlainText(p.name) // Sanitize product names
+  }));
   
   let totalAmount = 0;
   let totalPaid = 0;

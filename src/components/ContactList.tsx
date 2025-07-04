@@ -1,35 +1,21 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
-import { Contact } from '@/lib/types';
 import ContactCard from './ContactCard';
 import AddContactForm from './AddContactForm';
-import { getContacts, searchContacts } from '@/lib/storageUtils';
+import { useContacts } from '@/hooks/useContacts'; // Import the new hook
 
 const ContactList = () => {
-  const [contacts, setContacts] = useState<Contact[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-  
-  const fetchContacts = () => {
-    setIsLoading(true);
-    try {
-      const contactList = searchQuery 
-        ? searchContacts(searchQuery)
-        : getContacts();
-      setContacts(contactList);
-    } catch (error) {
-      console.error('Error fetching contacts:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  
-  useEffect(() => {
-    fetchContacts();
-  }, [searchQuery]);
-  
+  const { data: contacts, isLoading, error } = useContacts(searchQuery); // Use the hook
+
+  // Handle error state if needed
+  if (error) {
+    console.error('Error fetching contacts:', error);
+    // You might want to display an error message to the user
+  }
+
   return (
     <div className="w-full max-w-md mx-auto">
       <div className="relative mb-4">
@@ -45,12 +31,12 @@ const ContactList = () => {
       <div className="space-y-2 mb-4">
         {isLoading ? (
           <div className="text-center py-8">Loading contacts...</div>
-        ) : contacts.length > 0 ? (
+        ) : contacts && contacts.length > 0 ? (
           contacts.map((contact) => (
             <ContactCard 
               key={contact.id} 
-              contact={contact} 
-              refreshContacts={fetchContacts} 
+              contact={contact}
+              // refreshContacts is no longer needed due to query invalidation
             />
           ))
         ) : (
@@ -60,7 +46,8 @@ const ContactList = () => {
         )}
       </div>
       
-      <AddContactForm onContactAdded={fetchContacts} />
+      {/* onContactAdded is no longer needed as useAddContact will invalidate the query */}
+      <AddContactForm />
     </div>
   );
 };

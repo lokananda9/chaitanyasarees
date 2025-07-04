@@ -1,71 +1,71 @@
 
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Contact } from '../lib/types';
 import { Button } from '@/components/ui/button';
-import { createContactProfile, deleteContact } from '@/lib/storageUtils';
+import { useDeleteContact, useCreateContactProfile } from '@/hooks/useContacts'; // Import hooks
 import { toast } from '@/components/ui/use-toast';
 import { Trash2 } from 'lucide-react';
 
 interface ContactCardProps {
   contact: Contact;
-  refreshContacts: () => void;
+  // refreshContacts is no longer needed
 }
 
-const ContactCard = ({ contact, refreshContacts }: ContactCardProps) => {
-  const [isDeleting, setIsDeleting] = useState(false);
+const ContactCard = ({ contact }: ContactCardProps) => {
   const navigate = useNavigate();
-  
+  const deleteContactMutation = useDeleteContact();
+  const createProfileMutation = useCreateContactProfile();
+
   const handleContactClick = async () => {
     if (!contact.profileCreated) {
-      try {
-        const created = createContactProfile(contact.id);
-        if (created) {
+      createProfileMutation.mutate(contact.id, {
+        onSuccess: () => {
           toast({
             title: 'Profile Created',
             description: `Created profile for ${contact.name}`,
             duration: 3000,
           });
-          refreshContacts();
+          // Navigation will occur after profile creation attempt (success or error handled by mutation)
+          navigate(`/contact/${contact.id}`);
+        },
+        onError: (error) => {
+          console.error('Error creating profile:', error);
+          toast({
+            title: 'Error',
+            description: 'Failed to create profile. Please try again.',
+            variant: 'destructive',
+            duration: 3000,
+          });
+          // Still navigate, or decide on alternative behavior
+          navigate(`/contact/${contact.id}`);
         }
-      } catch (error) {
-        console.error('Error creating profile:', error);
-        toast({
-          title: 'Error',
-          description: 'Failed to create profile',
-          variant: 'destructive',
-          duration: 3000,
-        });
-        return;
-      }
+      });
+    } else {
+      navigate(`/contact/${contact.id}`);
     }
-    navigate(`/contact/${contact.id}`);
   };
 
   const handleDeleteContact = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsDeleting(true);
-    try {
-      const deleted = deleteContact(contact.id);
-      if (deleted) {
+    e.stopPropagation(); // Prevent click from bubbling to the card's onClick
+    deleteContactMutation.mutate(contact.id, {
+      onSuccess: () => {
         toast({
           title: 'Contact Deleted',
-          description: `${contact.name} has been deleted`,
+          description: `${contact.name} has been deleted.`,
           duration: 3000,
         });
-        refreshContacts();
-      }
-    } catch (error) {
-      console.error('Error deleting contact:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to delete contact',
-        variant: 'destructive',
-        duration: 3000,
-      });
-    } finally {
-      setIsDeleting(false);
-    }
+        // refreshContacts(); // No longer needed
+      },
+      onError: (error) => {
+        console.error('Error deleting contact:', error);
+        toast({
+          title: 'Error',
+          description: 'Failed to delete contact. Please try again.',
+          variant: 'destructive',
+          duration: 3000,
+        });
+      },
+    });
   };
   
   return (
