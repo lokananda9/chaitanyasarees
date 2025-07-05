@@ -17,50 +17,34 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-white shadow-lg border-b border-gray-200">
-      {/* Top bar */}
-      <div className="bg-gradient-to-r from-red-600 to-pink-600 text-white py-2">
-        <div className="container mx-auto px-4 flex justify-between items-center text-sm">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-1">
-              <Phone size={14} />
-              <span>+91-9876543210</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <Mail size={14} />
-              <span>info@chaitanyasarees.com</span>
-            </div>
-          </div>
-          <div className="hidden md:block">
-            <span>Premium Quality Sarees Since 1985</span>
-          </div>
-        </div>
-      </div>
-
+    <header className="bg-background shadow-md border-b border-border sticky top-0 z-50">
       {/* Main header */}
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-5"> {/* Increased padding slightly */}
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-red-600 to-pink-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-xl">C</span>
-            </div>
+          <Link to="/" className="flex items-center group">
+            {/* Optional: Simple placeholder for a more refined logo mark later */}
+            {/* <div className="w-8 h-8 bg-primary rounded-sm mr-2 group-hover:bg-accent transition-colors"></div> */}
             <div>
-              <h1 className="text-2xl font-bold text-gray-800">Chaitanya Sarees</h1>
-              <p className="text-sm text-gray-600">Elegance Redefined</p>
+              <h1 className="text-3xl font-serif font-bold text-primary group-hover:text-accent transition-colors">
+                Chaitanya Sarees
+              </h1>
+              <p className="text-xs font-sans text-muted-foreground group-hover:text-accent transition-colors">
+                Elegance Redefined
+              </p>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-6"> {/* Reduced space slightly */}
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
-                className={`font-medium transition-colors ${
+                className={`font-sans text-sm font-medium transition-colors duration-300 pb-1 ${
                   location.pathname === item.path
-                    ? 'text-red-600'
-                    : 'text-gray-700 hover:text-red-600'
+                    ? 'text-primary border-b-2 border-primary'
+                    : 'text-foreground hover:text-primary hover:border-b-2 hover:border-primary/50'
                 }`}
               >
                 {item.name}
@@ -71,8 +55,8 @@ const Header = () => {
           {/* Mobile menu button */}
           <Button
             variant="ghost"
-            size="sm"
-            className="lg:hidden"
+            size="icon"
+            className="lg:hidden text-foreground hover:text-primary"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -81,16 +65,16 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <nav className="lg:hidden mt-4 pb-4 border-t border-gray-200 pt-4">
-            <div className="flex flex-col space-y-2">
+          <nav className="lg:hidden mt-4 py-4 border-t border-border">
+            <div className="flex flex-col space-y-1">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`block py-2 px-4 rounded-md transition-colors ${
+                  className={`block py-3 px-3 rounded-md font-sans text-base transition-colors ${
                     location.pathname === item.path
-                      ? 'bg-red-50 text-red-600'
-                      : 'text-gray-700 hover:bg-gray-50'
+                      ? 'bg-primary/10 text-primary font-semibold'
+                      : 'text-foreground hover:bg-muted hover:text-primary'
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >

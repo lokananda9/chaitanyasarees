@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { Users, FileText, BarChart3, Settings, Plus, Search } from 'lucide-react';
+import { Users, FileText, BarChart3, Settings, Plus, Search, CheckCircle } from 'lucide-react'; // Added CheckCircle
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'; // Added CardDescription
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import ContactList from '@/components/ContactList';
-import AddContactForm from '@/components/AddContactForm';
-import InvoiceGenerator from '@/components/InvoiceGenerator';
+import ContactList from '@/components/ContactList'; // Assuming this will be styled or is simple enough
+import AddContactForm from '@/components/AddContactForm'; // Assuming this will be styled or is simple enough
+import InvoiceGenerator from '@/components/InvoiceGenerator'; // Assuming this will be styled or is simple enough
 
 const BusinessPortal = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -18,53 +18,53 @@ const BusinessPortal = () => {
       title: "Total Clients",
       value: "248",
       change: "+12%",
-      icon: <Users className="w-6 h-6 text-blue-600" />
+      icon: <Users className="w-6 h-6 text-primary" /> // Updated color
     },
     {
       title: "Active Orders",
       value: "56",
       change: "+8%",
-      icon: <FileText className="w-6 h-6 text-green-600" />
+      icon: <FileText className="w-6 h-6 text-primary" /> // Updated color
     },
     {
       title: "Monthly Revenue",
       value: "₹12.5L",
       change: "+15%",
-      icon: <BarChart3 className="w-6 h-6 text-purple-600" />
+      icon: <BarChart3 className="w-6 h-6 text-primary" /> // Updated color
     },
     {
       title: "Pending Invoices",
       value: "23",
-      change: "-5%",
-      icon: <FileText className="w-6 h-6 text-orange-600" />
+      change: "-5%", // Keep color logic for negative change if needed
+      icon: <FileText className="w-6 h-6 text-destructive" /> // Using destructive for negative implication
     }
   ];
 
   const recentActivities = [
-    { action: "New order from Priya Textiles", time: "2 hours ago", type: "order" },
-    { action: "Invoice #INV-2024-001 generated", time: "4 hours ago", type: "invoice" },
-    { action: "Payment received from Sharma Sarees", time: "1 day ago", type: "payment" },
-    { action: "New client added: Fashion House", time: "2 days ago", type: "client" },
-    { action: "Bulk order shipped to Delhi", time: "3 days ago", type: "shipment" }
+    { action: "New order from Priya Textiles", time: "2 hours ago", type: "order", icon: <FileText className="w-4 h-4 text-primary" /> },
+    { action: "Invoice #INV-2024-001 generated", time: "4 hours ago", type: "invoice", icon: <FileText className="w-4 h-4 text-accent" /> },
+    { action: "Payment received from Sharma Sarees", time: "1 day ago", type: "payment", icon: <CheckCircle className="w-4 h-4 text-green-600" /> },
+    { action: "New client: Fashion House", time: "2 days ago", type: "client", icon: <Users className="w-4 h-4 text-primary" /> },
+    { action: "Bulk order shipped to Delhi", time: "3 days ago", type: "shipment", icon: <Truck className="w-4 h-4 text-blue-500" /> }
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       <Header />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-red-600 to-pink-600 text-white py-12">
+      <section className="py-12 md:py-16 bg-muted border-b border-border">
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-2">Business Portal</h1>
-              <p className="text-xl text-red-100">
-                Manage your wholesale business, clients, and orders efficiently
+              <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary mb-2">Business Portal</h1>
+              <p className="text-lg text-secondary max-w-2xl">
+                Streamline your wholesale operations, manage client relations, and track your business growth.
               </p>
             </div>
-            <div className="hidden md:block">
-              <Button variant="secondary" className="bg-white text-red-600 hover:bg-gray-100">
-                <Plus className="w-4 h-4 mr-2" />
+            <div className="mt-4 sm:mt-0">
+              <Button variant="default" size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-sm">
+                <Plus className="w-5 h-5 mr-2" />
                 Quick Actions
               </Button>
             </div>
@@ -72,51 +72,50 @@ const BusinessPortal = () => {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-8">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
-            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-            <TabsTrigger value="clients">Clients</TabsTrigger>
-            <TabsTrigger value="invoices">Invoices</TabsTrigger>
-            <TabsTrigger value="reports">Reports</TabsTrigger>
+      <div className="container mx-auto px-4 py-8 md:py-12">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 gap-2 bg-muted p-1 rounded-md">
+            <TabsTrigger value="dashboard" className="rounded-sm data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm">Dashboard</TabsTrigger>
+            <TabsTrigger value="clients" className="rounded-sm data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm">Clients</TabsTrigger>
+            <TabsTrigger value="invoices" className="rounded-sm data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm">Invoices</TabsTrigger>
+            <TabsTrigger value="reports" className="rounded-sm data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm">Reports</TabsTrigger>
           </TabsList>
 
           {/* Dashboard Tab */}
-          <TabsContent value="dashboard" className="space-y-6">
+          <TabsContent value="dashboard" className="space-y-8">
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {stats.map((stat, index) => (
-                <Card key={index} className="border-none shadow-lg">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-                        <p className="text-2xl font-bold text-gray-800">{stat.value}</p>
-                        <p className="text-sm text-green-600">{stat.change} from last month</p>
-                      </div>
-                      <div className="p-3 bg-gray-50 rounded-full">
-                        {stat.icon}
-                      </div>
-                    </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {stats.map((stat) => (
+                <Card key={stat.title} className="bg-card border-border rounded-sm shadow-md">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium text-secondary">{stat.title}</CardTitle>
+                    {stat.icon}
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-3xl font-bold font-serif text-foreground">{stat.value}</div>
+                    <p className={`text-xs ${stat.change.startsWith('+') ? 'text-green-600' : 'text-destructive'}`}>
+                      {stat.change} from last month
+                    </p>
                   </CardContent>
                 </Card>
               ))}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Recent Activities */}
-              <Card className="border-none shadow-lg">
+              <Card className="lg:col-span-2 bg-card border-border rounded-sm shadow-md">
                 <CardHeader>
-                  <CardTitle>Recent Activities</CardTitle>
+                  <CardTitle className="font-serif text-xl text-foreground">Recent Activities</CardTitle>
+                  <CardDescription className="text-sm text-secondary">Overview of latest business interactions.</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     {recentActivities.map((activity, index) => (
-                      <div key={index} className="flex items-start space-x-3 pb-3 border-b border-gray-100 last:border-0">
-                        <div className="w-2 h-2 bg-red-600 rounded-full mt-2"></div>
+                      <div key={index} className="flex items-center space-x-3 pb-3 border-b border-border last:border-0 last:pb-0">
+                        <div className="p-2 bg-muted rounded-full">{activity.icon}</div>
                         <div className="flex-1">
-                          <p className="text-sm font-medium text-gray-800">{activity.action}</p>
-                          <p className="text-xs text-gray-500">{activity.time}</p>
+                          <p className="text-sm font-medium text-foreground">{activity.action}</p>
+                          <p className="text-xs text-muted-foreground">{activity.time}</p>
                         </div>
                       </div>
                     ))}
@@ -125,39 +124,23 @@ const BusinessPortal = () => {
               </Card>
 
               {/* Quick Actions */}
-              <Card className="border-none shadow-lg">
+              <Card className="bg-card border-border rounded-sm shadow-md">
                 <CardHeader>
-                  <CardTitle>Quick Actions</CardTitle>
+                  <CardTitle className="font-serif text-xl text-foreground">Quick Actions</CardTitle>
+                   <CardDescription className="text-sm text-secondary">Access common tasks quickly.</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <Button 
-                    className="w-full justify-start bg-red-600 hover:bg-red-700 text-white"
-                    onClick={() => setActiveTab('clients')}
-                  >
-                    <Users className="w-4 h-4 mr-2" />
-                    Manage Clients
+                <CardContent className="space-y-3">
+                  <Button variant="default" className="w-full justify-start rounded-sm" onClick={() => { setActiveTab('clients'); setShowAddContact(true); }}>
+                    <Plus className="w-4 h-4 mr-2" /> Add New Client
                   </Button>
-                  <Button 
-                    variant="outline" 
-                    className="w-full justify-start border-red-600 text-red-600 hover:bg-red-50"
-                    onClick={() => setActiveTab('invoices')}
-                  >
-                    <FileText className="w-4 h-4 mr-2" />
-                    Generate Invoice
+                  <Button variant="outline" className="w-full justify-start rounded-sm" onClick={() => setActiveTab('invoices')}>
+                    <FileText className="w-4 h-4 mr-2" /> Generate Invoice
                   </Button>
-                  <Button 
-                    variant="outline" 
-                    className="w-full justify-start border-red-600 text-red-600 hover:bg-red-50"
-                  >
-                    <BarChart3 className="w-4 h-4 mr-2" />
-                    View Reports
+                  <Button variant="outline" className="w-full justify-start rounded-sm" onClick={() => setActiveTab('reports')}>
+                    <BarChart3 className="w-4 h-4 mr-2" /> View Reports
                   </Button>
-                  <Button 
-                    variant="outline" 
-                    className="w-full justify-start border-red-600 text-red-600 hover:bg-red-50"
-                  >
-                    <Settings className="w-4 h-4 mr-2" />
-                    Settings
+                  <Button variant="ghost" className="w-full justify-start rounded-sm">
+                    <Settings className="w-4 h-4 mr-2" /> Account Settings
                   </Button>
                 </CardContent>
               </Card>
@@ -166,70 +149,57 @@ const BusinessPortal = () => {
 
           {/* Clients Tab */}
           <TabsContent value="clients" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-gray-800">Client Management</h2>
-              <Button 
-                className="bg-red-600 hover:bg-red-700 text-white"
-                onClick={() => setShowAddContact(!showAddContact)}
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add New Client
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <h2 className="text-3xl font-serif font-semibold text-foreground">Client Management</h2>
+              <Button className="rounded-sm" onClick={() => setShowAddContact(!showAddContact)}>
+                <Plus className="w-4 h-4 mr-2" /> {showAddContact ? 'Cancel' : 'Add New Client'}
               </Button>
             </div>
 
             {showAddContact && (
-              <Card className="border-none shadow-lg">
+              <Card className="bg-card border-border rounded-sm shadow-md">
                 <CardHeader>
-                  <CardTitle>Add New Client</CardTitle>
+                  <CardTitle className="font-serif text-xl">Add New Client</CardTitle>
                 </CardHeader>
-                                 <CardContent>
+                <CardContent>
                    <AddContactForm onContactAdded={() => setShowAddContact(false)} />
                  </CardContent>
               </Card>
             )}
 
-            <Card className="border-none shadow-lg">
+            <Card className="bg-card border-border rounded-sm shadow-md">
               <CardHeader>
-                <CardTitle>Client List</CardTitle>
-                <div className="flex items-center space-x-4">
-                  <div className="relative flex-1 max-w-md">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                    <input
-                      type="text"
-                      placeholder="Search clients..."
-                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                    />
+                <CardTitle className="font-serif text-xl">Client Directory</CardTitle>
+                <CardDescription className="text-sm text-secondary">Search and manage your client base.</CardDescription>
+                 <div className="pt-4">
+                    <div className="relative flex-1 max-w-sm">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={18} />
+                      <Input
+                        type="text"
+                        placeholder="Search clients by name or ID..."
+                        className="w-full pl-10 pr-4 py-2 rounded-sm h-10 text-sm"
+                      />
+                    </div>
                   </div>
-                </div>
               </CardHeader>
               <CardContent>
-                <ContactList />
+                <ContactList /> {/* Assuming ContactList will adapt or be restyled later */}
               </CardContent>
             </Card>
           </TabsContent>
 
           {/* Invoices Tab */}
           <TabsContent value="invoices" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-gray-800">Invoice Management</h2>
-            </div>
-
-            <Card className="border-none shadow-lg">
+            <h2 className="text-3xl font-serif font-semibold text-foreground">Invoice Management</h2>
+            <Card className="bg-card border-border rounded-sm shadow-md">
               <CardHeader>
-                <CardTitle>Generate Invoice</CardTitle>
+                <CardTitle className="font-serif text-xl">Generate New Invoice</CardTitle>
+                <CardDescription className="text-sm text-secondary">Create and dispatch professional invoices.</CardDescription>
               </CardHeader>
-                             <CardContent>
+              <CardContent>
                  <InvoiceGenerator 
-                   profile={{
-                     id: '1',
-                     contactId: '1',
-                     name: 'Select a client first',
-                     phoneNumber: '',
-                     products: []
-                   }}
-                   onInvoiceSent={() => {
-                     console.log('Invoice sent');
-                   }}
+                   profile={{ id: '1', contactId: '1', name: 'Select a client first', phoneNumber: '', products: [] }}
+                   onInvoiceSent={() => console.log('Invoice sent callback triggered')}
                  />
                </CardContent>
             </Card>
@@ -237,35 +207,34 @@ const BusinessPortal = () => {
 
           {/* Reports Tab */}
           <TabsContent value="reports" className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-800">Business Reports</h2>
-            
+            <h2 className="text-3xl font-serif font-semibold text-foreground">Business Reports & Analytics</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="border-none shadow-lg">
+              <Card className="bg-card border-border rounded-sm shadow-md">
                 <CardHeader>
-                  <CardTitle>Sales Overview</CardTitle>
+                  <CardTitle className="font-serif text-xl">Sales Overview</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-64 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <p className="text-gray-500">Sales Chart Placeholder</p>
+                  <div className="h-64 bg-muted rounded-sm flex items-center justify-center">
+                    <p className="text-secondary">Sales Chart Placeholder</p>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="border-none shadow-lg">
+              <Card className="bg-card border-border rounded-sm shadow-md">
                 <CardHeader>
-                  <CardTitle>Top Clients</CardTitle>
+                  <CardTitle className="font-serif text-xl">Top Performing Clients</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     {[
                       { name: "Priya Textiles", amount: "₹2,45,000" },
                       { name: "Sharma Sarees", amount: "₹1,89,000" },
                       { name: "Fashion House", amount: "₹1,56,000" },
                       { name: "Delhi Emporium", amount: "₹1,23,000" }
-                    ].map((client, index) => (
-                      <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <span className="font-medium">{client.name}</span>
-                        <span className="text-red-600 font-semibold">{client.amount}</span>
+                    ].map((client) => (
+                      <div key={client.name} className="flex justify-between items-center p-3 bg-muted rounded-sm">
+                        <span className="text-sm font-medium text-foreground">{client.name}</span>
+                        <span className="text-sm text-primary font-semibold">{client.amount}</span>
                       </div>
                     ))}
                   </div>
@@ -273,13 +242,13 @@ const BusinessPortal = () => {
               </Card>
             </div>
 
-            <Card className="border-none shadow-lg">
+            <Card className="bg-card border-border rounded-sm shadow-md">
               <CardHeader>
-                <CardTitle>Revenue Analytics</CardTitle>
+                <CardTitle className="font-serif text-xl">Revenue Analytics</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-80 bg-gray-100 rounded-lg flex items-center justify-center">
-                  <p className="text-gray-500">Revenue Analytics Chart Placeholder</p>
+                <div className="h-80 bg-muted rounded-sm flex items-center justify-center">
+                  <p className="text-secondary">Revenue Analytics Chart Placeholder</p>
                 </div>
               </CardContent>
             </Card>

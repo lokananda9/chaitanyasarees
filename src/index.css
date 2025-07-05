@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,74 +7,105 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 199 84% 55%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 157 48% 95%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 199 84% 55%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Rolex Inspired Light Theme */
+    --background: 40 25% 97%; /* #F8F7F5 Light Beige */
+    --foreground: 0 0% 20%;   /* #333333 Dark Gray */
+
+    --card: 0 0% 100%;       /* #FFFFFF White */
+    --card-foreground: 0 0% 20%; /* #333333 Dark Gray */
+
+    --popover: 0 0% 100%;    /* #FFFFFF White */
+    --popover-foreground: 0 0% 20%; /* #333333 Dark Gray */
+
+    --primary: 345 100% 25%; /* #800020 Deep Maroon/Burgundy */
+    --primary-foreground: 0 0% 100%; /* #FFFFFF White */
+
+    --secondary: 0 0% 35%;   /* #5A5A5A Medium Gray */
+    --secondary-foreground: 0 0% 100%; /* #FFFFFF White */
+
+    --muted: 40 20% 94%;      /* Slightly darker beige for muted backgrounds */
+    --muted-foreground: 0 0% 45%; /* #737373 Medium-Dark Gray for muted text */
+
+    --accent: 39 35% 51%;    /* #B08D57 Soft Gold/Bronze */
+    --accent-foreground: 0 0% 100%; /* #FFFFFF White */
+
+    --destructive: 0 84% 60%; /* #F22B2B Standard Red */
+    --destructive-foreground: 0 0% 100%; /* #FFFFFF White */
+
+    --border: 0 0% 86%;      /* #DCDCDC Light Gray */
+    --input: 0 0% 86%;       /* #DCDCDC Light Gray for input borders */
+    --ring: 39 35% 51%;      /* #B08D57 Soft Gold/Bronze for focus rings */
+
+    --radius: 0.25rem;       /* Subtler border radius */
+
+    /* Sidebar variables - will need adjustment if sidebar is used extensively with new theme */
+    /* For now, aliasing to main theme or keeping them distinct if they serve a different purpose */
+    --sidebar-background: 0 0% 98%; /* Default light gray, can be updated */
+    --sidebar-foreground: 0 0% 20%;
+    --sidebar-primary: 345 100% 25%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 39 35% 51%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 86%;
+    --sidebar-ring: 39 35% 51%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 199 84% 55%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    /* Rolex Inspired Dark Theme (Conceptual - needs careful color selection) */
+    --background: 0 0% 10%;   /* #1A1A1A Very Dark Gray/Almost Black */
+    --foreground: 0 0% 85%;   /* #D9D9D9 Light Gray */
+
+    --card: 0 0% 15%;         /* #262626 Dark Gray */
+    --card-foreground: 0 0% 85%; /* #D9D9D9 Light Gray */
+
+    --popover: 0 0% 15%;      /* #262626 Dark Gray */
+    --popover-foreground: 0 0% 85%; /* #D9D9D9 Light Gray */
+
+    --primary: 345 70% 60%;   /* #C94D6D Brighter Maroon for dark theme */
+    --primary-foreground: 0 0% 100%; /* #FFFFFF White */
+
+    --secondary: 0 0% 25%;     /* #404040 Medium Dark Gray */
+    --secondary-foreground: 0 0% 85%; /* #D9D9D9 Light Gray */
+
+    --muted: 0 0% 20%;        /* Slightly lighter dark gray for muted backgrounds */
+    --muted-foreground: 0 0% 60%; /* #999999 Medium Gray for muted text */
+
+    --accent: 39 45% 61%;     /* #C8A570 Brighter Soft Gold/Bronze */
+    --accent-foreground: 0 0% 10%; /* #1A1A1A Dark text for bright accent */
+
+    --destructive: 0 70% 55%; /* #E54848 Brighter Red */
+    --destructive-foreground: 0 0% 100%; /* #FFFFFF White */
+
+    --border: 0 0% 25%;       /* #404040 Medium Dark Gray */
+    --input: 0 0% 25%;        /* #404040 Medium Dark Gray for input borders */
+    --ring: 39 45% 61%;       /* #C8A570 Brighter Soft Gold/Bronze for focus rings */
+
+    /* Dark Sidebar variables */
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: 0 0% 85%;
+    --sidebar-primary: 345 70% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 39 45% 61%;
+    --sidebar-accent-foreground: 0 0% 10%;
+    --sidebar-border: 0 0% 25%;
+    --sidebar-ring: 39 45% 61%;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border; /* This applies border color to all elements, might be too much. Revisit. */
+                          /* Usually borders are applied specifically where needed. */
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans; /* Set default font family for body */
+    -webkit-font-smoothing: antialiased; /* Improve font rendering */
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif; /* Apply serif font to all headings */
   }
 }
 

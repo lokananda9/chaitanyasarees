@@ -1,7 +1,6 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
-import { motion } from "framer-motion" // Import motion
 
 import { cn } from "@/lib/utils"
 
@@ -42,44 +41,16 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const isInteractiveVariant = variant === "default" || variant === "destructive" || variant === "secondary" || variant === "outline";
-
-    if (asChild) {
-      // When asChild is true, framer-motion props should be applied to the child component directly if it's a motion component.
-      // We don't wrap Slot with motion here as it would break its purpose.
-      return (
-        <Slot
-          className={cn(buttonVariants({ variant, size, className }))}
-          ref={ref}
-          {...props}
-        />
-      );
-    }
-
+    const Comp = asChild ? Slot : "button"
     return (
-      <motion.button
+      <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
-        whileHover={
-          isInteractiveVariant
-            ? { scale: 1.03, y: -1, boxShadow: "0px 2px 8px rgba(0,0,0,0.1)" }
-            : (variant === "link" || variant === "ghost")
-            ? { y: -1 } // Subtle lift for link/ghost
-            : {} // No hover effect for other cases if any
-        }
-        whileTap={
-          isInteractiveVariant
-            ? { scale: 0.97, y: 0, boxShadow: "0px 1px 4px rgba(0,0,0,0.05)" }
-            : (variant === "link" || variant === "ghost")
-            ? { y: 0 } // Back to original position on tap
-            : {}
-        }
-        transition={{ type: "spring", stiffness: 350, damping: 15 }}
         {...props}
       />
-    );
+    )
   }
-);
-Button.displayName = "Button";
+)
+Button.displayName = "Button"
 
-export { Button, buttonVariants };
+export { Button, buttonVariants }

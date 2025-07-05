@@ -1,210 +1,136 @@
-import { Truck, Shield, Palette, Users, HeadphonesIcon, RotateCcw, Scissors, Calendar } from 'lucide-react';
+import { Link } from 'react-router-dom'; // Added Link for CTA
+import { Truck, Shield, Palette, Users, Headphones, RotateCcw, ScissorsIcon, CalendarDays, CheckCircle2 } from 'lucide-react'; // Updated icons
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SectionTitle from '@/components/SectionTitle'; // Import SectionTitle
 
 const Services = () => {
   const mainServices = [
     {
-      icon: <Users className="w-12 h-12 text-red-600" />,
-      title: "Retail Sales",
-      description: "Premium sarees for individual customers with personalized shopping experience",
-      features: ["Wide collection of 500+ designs", "Expert styling consultation", "Personal shopping assistance", "Size and fit guidance"]
+      icon: <Users className="w-12 h-12 text-accent" />,
+      title: "Personalized Retail Experience",
+      description: "Discover an exquisite collection of sarees with dedicated styling consultation and a bespoke shopping journey.",
+      features: ["Extensive collection of 500+ unique designs", "Expert styling and trend consultation", "Personal shopping appointments available", "Precise size and fit guidance"]
     },
     {
-      icon: <Truck className="w-12 h-12 text-red-600" />,
-      title: "Wholesale Business",
-      description: "Bulk orders for retailers and distributors across India",
-      features: ["Competitive wholesale pricing", "Minimum order quantity: 50 pieces", "Pan-India distribution", "Credit facility for verified dealers"]
+      icon: <Truck className="w-12 h-12 text-accent" />,
+      title: "Wholesale & Distribution",
+      description: "Seamless bulk ordering solutions for retailers and distributors across India, ensuring quality and reliability.",
+      features: ["Competitive wholesale pricing tiers", "Flexible minimum order quantities (starting 50 pieces)", "Efficient pan-India logistics network", "Exclusive credit facilities for empaneled dealers"]
     },
     {
-      icon: <Palette className="w-12 h-12 text-red-600" />,
-      title: "Custom Design",
-      description: "Bespoke saree design services for special occasions",
-      features: ["Personal designer consultation", "Custom color combinations", "Unique patterns and motifs", "Bridal collection customization"]
+      icon: <Palette className="w-12 h-12 text-accent" />,
+      title: "Bespoke Design Services",
+      description: "Collaborate with our master designers to create unique, custom sarees for your most cherished occasions.",
+      features: ["In-depth personal designer consultation", "Customizable color palettes and fabric selection", "Development of unique patterns and motifs", "Specialized bridal collection customization"]
     },
     {
-      icon: <Calendar className="w-12 h-12 text-red-600" />,
-      title: "Rental Services",
-      description: "Premium saree rental for special events and occasions",
-      features: ["Designer sarees for rent", "Wedding and party collections", "Professional cleaning included", "Flexible rental periods"]
+      icon: <CalendarDays className="w-12 h-12 text-accent" />, // Updated icon
+      title: "Premium Saree Rentals",
+      description: "Access our curated collection of premium and designer sarees for your special events and occasions.",
+      features: ["Exclusive designer sarees for rent", "Curated wedding and party wear collections", "Professional dry-cleaning and maintenance included", "Flexible rental durations with convenient terms"]
     }
   ];
 
   const additionalServices = [
     {
-      icon: <Scissors className="w-8 h-8 text-red-600" />,
-      title: "Alterations & Tailoring",
-      description: "Expert alteration services for perfect fit"
+      icon: <ScissorsIcon className="w-10 h-10 text-accent" />, // Updated icon
+      title: "Expert Alterations",
+      description: "Our skilled tailors provide meticulous alteration services for a flawless and comfortable fit."
     },
     {
-      icon: <Shield className="w-8 h-8 text-red-600" />,
-      title: "Quality Assurance",
-      description: "100% authentic products with quality guarantee"
+      icon: <Shield className="w-10 h-10 text-accent" />,
+      title: "Authenticity Guarantee",
+      description: "We assure 100% authentic handlooms and materials, backed by our stringent quality checks."
     },
     {
-      icon: <Truck className="w-8 h-8 text-red-600" />,
-      title: "Free Shipping",
-      description: "Complimentary delivery on orders above ₹2,999"
+      icon: <Truck className="w-10 h-10 text-accent" />,
+      title: "Complimentary Shipping",
+      description: "Enjoy free, insured shipping on all domestic orders exceeding a specified value."
     },
     {
-      icon: <RotateCcw className="w-8 h-8 text-red-600" />,
-      title: "Easy Returns",
-      description: "7-day hassle-free return policy"
+      icon: <RotateCcw className="w-10 h-10 text-accent" />,
+      title: "Hassle-Free Returns",
+      description: "A straightforward 7-day return and exchange policy for your complete peace of mind."
     },
     {
-      icon: <HeadphonesIcon className="w-8 h-8 text-red-600" />,
-      title: "24/7 Support",
-      description: "Round-the-clock customer support"
+      icon: <Headphones className="w-10 h-10 text-accent" />, // Updated icon
+      title: "Dedicated Client Support",
+      description: "Our client relations team is available around the clock to assist with any queries."
     },
     {
-      icon: <Palette className="w-8 h-8 text-red-600" />,
-      title: "Color Matching",
-      description: "Expert color coordination for complete outfits"
+      icon: <Palette className="w-10 h-10 text-accent" />,
+      title: "Color & Fabric Consultation",
+      description: "Expert advice on color palettes and fabric choices to complement your style and occasion."
     }
   ];
 
   const pricing = [
     {
-      category: "Cotton Sarees",
-      priceRange: "₹1,500 - ₹5,000",
-      features: ["Handloom cotton", "Block prints", "Daily wear collection", "Comfortable fabric"]
+      category: "Artisanal Cotton Sarees",
+      priceRange: "₹2,500 - ₹8,000",
+      features: ["Premium handloom cotton", "Authentic block prints & weaves", "Ideal for daily & semi-formal wear", "Breathable, comfortable fabric"]
     },
     {
-      category: "Silk Sarees",
-      priceRange: "₹5,000 - ₹25,000",
-      features: ["Pure silk quality", "Traditional designs", "Zari work", "Special occasions"]
+      category: "Regal Silk Sarees",
+      priceRange: "₹7,000 - ₹45,000",
+      features: ["Pure silk (Kanjivaram, Banarasi, etc.)", "Intricate traditional designs", "Exquisite Zari and embroidery work", "Perfect for weddings & grand occasions"]
     },
     {
       category: "Designer Collection",
-      priceRange: "₹8,000 - ₹50,000",
-      features: ["Contemporary designs", "Premium fabrics", "Exclusive patterns", "Limited editions"]
+      priceRange: "₹12,000 - ₹75,000+",
+      features: ["Contemporary & fusion designs", "Luxurious premium fabrics", "Exclusive patterns & embellishments", "Often limited edition pieces"]
     },
     {
-      category: "Bridal Sarees",
-      priceRange: "₹15,000 - ₹1,00,000",
-      features: ["Heavy embroidery", "Premium materials", "Customization available", "Complete bridal sets"]
+      category: "Bridal Masterpieces",
+      priceRange: "₹25,000 - ₹2,00,000+",
+      features: ["Opulent embroidery & craftsmanship", "Finest silks, velvets, and nets", "Bespoke customization available", "Complete bridal trousseau consultation"]
     }
   ];
 
+  const processSteps = [
+      { step: "01", title: "Initial Consultation", description: "We begin by understanding your unique needs, preferences, and the occasion." },
+      { step: "02", title: "Curated Selection", description: "Explore our vast collection or discuss bespoke design possibilities with our experts." },
+      { step: "03", title: "Personalization & Crafting", description: "Your chosen saree is customized or crafted with meticulous attention to detail by our artisans." },
+      { step: "04", title: "Quality Assurance & Delivery", description: "Rigorous quality checks followed by secure, timely delivery to your preferred location." }
+    ];
+
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       <Header />
       
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-red-600 to-pink-600 text-white py-20">
+      <section className="py-16 md:py-20 bg-muted border-b border-border">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Services</h1>
-          <p className="text-xl text-red-100 max-w-2xl mx-auto">
-            Comprehensive saree solutions for every need - from individual purchases to bulk orders, 
-            custom designs to rental services
+          <h1 className="text-5xl md:text-6xl font-serif font-bold text-primary mb-3">Our Bespoke Services</h1>
+          <p className="text-xl text-secondary max-w-3xl mx-auto">
+            At Chaitanya Sarees, we offer a comprehensive suite of services tailored to provide an unparalleled saree experience, from selection to aftercare.
           </p>
         </div>
       </section>
 
       {/* Main Services */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-              Our Core Services
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Everything you need for your saree requirements under one roof
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {mainServices.map((service, index) => (
-              <Card key={index} className="border-none shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-8">
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0">
-                      {service.icon}
-                    </div>
+          <SectionTitle title="Core Offerings" subtitle="Discover the foundational services that define the Chaitanya Sarees experience." />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+            {mainServices.map((service) => (
+              <Card key={service.title} className="bg-card border-border rounded-sm shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
+                <CardContent className="p-8 flex-grow">
+                  <div className="flex items-start space-x-5 mb-5">
+                    <div className="flex-shrink-0 mt-1">{service.icon}</div>
                     <div className="flex-1">
-                      <h3 className="text-2xl font-bold text-gray-800 mb-3">
-                        {service.title}
-                      </h3>
-                      <p className="text-gray-600 mb-4">
-                        {service.description}
-                      </p>
-                      <ul className="space-y-2">
-                        {service.features.map((feature, featureIndex) => (
-                          <li key={featureIndex} className="flex items-center text-gray-700">
-                            <div className="w-2 h-2 bg-red-600 rounded-full mr-3"></div>
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
+                      <h3 className="text-2xl font-serif font-semibold text-foreground mb-2">{service.title}</h3>
+                      <p className="text-base text-secondary leading-relaxed">{service.description}</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Additional Services */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-              Additional Benefits
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Extra services that make your shopping experience exceptional
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {additionalServices.map((service, index) => (
-              <Card key={index} className="text-center border-none shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex justify-center mb-4">
-                    {service.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-600">
-                    {service.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-              Pricing Overview
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Transparent pricing for all our saree categories
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {pricing.map((category, index) => (
-              <Card key={index} className="border-none shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">
-                    {category.category}
-                  </h3>
-                  <div className="text-2xl font-bold text-red-600 mb-4">
-                    {category.priceRange}
-                  </div>
-                  <ul className="space-y-2">
-                    {category.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center text-gray-700 text-sm">
-                        <div className="w-1.5 h-1.5 bg-red-600 rounded-full mr-2"></div>
+                  <ul className="space-y-2.5 pl-0"> {/* Removed left padding for custom bullet */}
+                    {service.features.map((feature) => (
+                      <li key={feature} className="flex items-center text-sm text-secondary">
+                        <CheckCircle2 className="w-4 h-4 text-accent mr-3 flex-shrink-0" /> {/* Updated bullet */}
                         {feature}
                       </li>
                     ))}
@@ -216,35 +142,57 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Process Section */}
-      <section className="py-16 bg-white">
+      {/* Additional Services */}
+      <section className="py-16 md:py-24 bg-muted">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-              How We Work
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Our streamlined process ensures the best experience for you
-            </p>
+          <SectionTitle title="Value-Added Benefits" subtitle="Enhancing your experience with services designed for your utmost convenience and satisfaction." />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {additionalServices.map((service) => (
+              <Card key={service.title} className="text-center bg-card p-8 shadow-md border border-border hover:shadow-lg transition-shadow duration-300 rounded-sm">
+                <div className="flex justify-center mb-5">{service.icon}</div>
+                <h3 className="text-xl font-serif font-semibold text-foreground mb-2">{service.title}</h3>
+                <p className="text-sm text-secondary">{service.description}</p>
+              </Card>
+            ))}
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              { step: "1", title: "Consultation", description: "Understand your requirements and preferences" },
-              { step: "2", title: "Selection", description: "Browse our collection or request custom designs" },
-              { step: "3", title: "Customization", description: "Personalize your saree with our expert team" },
-              { step: "4", title: "Delivery", description: "Quality check and timely delivery to your doorstep" }
-            ].map((process, index) => (
-              <div key={index} className="text-center">
-                <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">
-                  {process.step}
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="py-16 md:py-24 bg-background">
+        <div className="container mx-auto px-4">
+          <SectionTitle title="Investment Guide" subtitle="A transparent overview of our pricing, reflecting the quality and craftsmanship inherent in every Chaitanya Saree." />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {pricing.map((category) => (
+              <Card key={category.category} className="bg-card border-border rounded-sm shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col p-6">
+                <h3 className="text-xl font-serif font-semibold text-primary mb-2">{category.category}</h3>
+                <p className="font-sans text-2xl font-bold text-accent mb-4">{category.priceRange}</p>
+                <ul className="space-y-2 text-sm text-secondary flex-grow">
+                  {category.features.map((feature) => (
+                    <li key={feature} className="flex items-center">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-accent mr-2.5 flex-shrink-0" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Process Section */}
+      <section className="py-16 md:py-24 bg-muted">
+        <div className="container mx-auto px-4">
+          <SectionTitle title="Our Seamless Process" subtitle="A glimpse into our client-centric approach, ensuring a delightful journey from consultation to delivery." />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {processSteps.map((processItem) => (
+              <div key={processItem.step} className="text-center p-6 bg-card border border-border rounded-sm shadow-sm">
+                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-2xl font-serif font-bold mx-auto mb-5">
+                  {processItem.step}
                 </div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                  {process.title}
-                </h3>
-                <p className="text-gray-600">
-                  {process.description}
-                </p>
+                <h3 className="text-xl font-serif font-semibold text-foreground mb-2">{processItem.title}</h3>
+                <p className="text-sm text-secondary">{processItem.description}</p>
               </div>
             ))}
           </div>
@@ -252,21 +200,24 @@ const Services = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-red-600 to-pink-600 text-white">
+      <section className="py-16 md:py-24 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Ready to Get Started?
-          </h2>
-          <p className="text-xl mb-8 text-red-100">
-            Contact us today to discuss your requirements or visit our showroom
+          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">Experience Unmatched Elegance</h2>
+          <p className="text-lg md:text-xl opacity-90 mb-10 max-w-2xl mx-auto">
+            Allow us to assist you in finding or creating the saree of your dreams. <br className="hidden sm:block" />
+            Connect with our experts today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="bg-white text-red-600 hover:bg-gray-100">
-              Contact Us Today
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-red-600">
-              Visit Showroom
-            </Button>
+            <Link to="/contact">
+              <Button size="lg" variant="secondary" className="bg-accent hover:bg-accent/90 text-accent-foreground text-base px-10 py-6 rounded-sm">
+                Inquire Now
+              </Button>
+            </Link>
+            <Link to="/products">
+              <Button size="lg" variant="outline" className="border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground hover:text-primary text-base px-10 py-6 rounded-sm">
+                Explore Collections
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

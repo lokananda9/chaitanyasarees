@@ -1,379 +1,260 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+// Removed useState and useEffect for hero slideshow, will simplify for now
 import { ArrowRight, Star, Users, Award, Truck, Shield, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import AnimatedSection from '@/components/AnimatedSection'; // Import AnimatedSection
+
+// Simplified hero data for a static hero section initially
+const heroData = {
+  title: "Timeless Elegance, Woven Anew",
+  subtitle: "Discover our exclusive collection of handcrafted sarees, designed for the modern connoisseur.",
+  image: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=1600&h=900&fit=crop&q=80", // Higher quality image
+  cta: "Explore the Collection"
+};
 
 const Index = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  // const [currentSlide, setCurrentSlide] = useState(0); // Removed for static hero
 
-  const heroSlides = [
-    {
-      title: "Exquisite Silk Sarees",
-      subtitle: "Handwoven with tradition, crafted with love",
-      image: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=1200&h=600&fit=crop",
-      cta: "Explore Collection"
-    },
-    {
-      title: "Bridal Collection 2024",
-      subtitle: "Make your special day unforgettable",
-      image: "https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=1200&h=600&fit=crop",
-      cta: "View Bridal Range"
-    },
-    {
-      title: "Cotton Comfort Sarees",
-      subtitle: "Elegant designs for everyday elegance",
-      image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=1200&h=600&fit=crop",
-      cta: "Shop Cotton Sarees"
-    }
-  ];
+  // const heroSlides = [ ... ]; // Removed for static hero
 
   const features = [
     {
-      icon: <Award className="w-8 h-8 text-red-600" />,
+      icon: <Award className="w-10 h-10 text-accent" />, // Updated icon style
       title: "Premium Quality",
-      description: "Finest fabrics and authentic craftsmanship since 1985"
+      description: "Finest fabrics and authentic craftsmanship since 1985."
     },
     {
-      icon: <Users className="w-8 h-8 text-red-600" />,
-      title: "50,000+ Happy Customers",
-      description: "Trusted by women across India for special occasions"
+      icon: <Users className="w-10 h-10 text-accent" />, // Updated icon style
+      title: "Artisanal Heritage", // Updated title
+      description: "Celebrating generations of weavers and their timeless skill." // Updated description
     },
     {
-      icon: <Truck className="w-8 h-8 text-red-600" />,
-      title: "Free Shipping",
-      description: "Complimentary delivery on orders above ₹2,999"
+      icon: <Truck className="w-10 h-10 text-accent" />, // Updated icon style
+      title: "Global Shipping", // Updated title
+      description: "Delivering elegance to your doorstep, worldwide." // Updated description
     },
     {
-      icon: <Shield className="w-8 h-8 text-red-600" />,
-      title: "Quality Guarantee",
-      description: "100% authentic products with quality assurance"
+      icon: <Shield className="w-10 h-10 text-accent" />, // Updated icon style
+      title: "Authenticity Assured", // Updated title
+      description: "Genuine handlooms and materials, certified for your peace of mind." // Updated description
     }
   ];
 
   const productCategories = [
     {
-      name: "Silk Sarees",
-      image: "https://images.unsplash.com/photo-1610030469621-bd4ddc830ace?w=400&h=500&fit=crop",
-      description: "Luxurious silk sarees for special occasions",
+      name: "Regal Silk Sarees", // Updated name
+      image: "https://images.unsplash.com/photo-1610030469621-bd4ddc830ace?w=800&h=1000&fit=crop&q=80", // Higher quality image
+      description: "Luxurious silk sarees for timeless special occasions.", // Updated description
       count: "200+ Designs"
     },
     {
-      name: "Cotton Sarees",
-      image: "https://images.unsplash.com/photo-1506629905607-84c84b32eb42?w=400&h=500&fit=crop",
-      description: "Comfortable cotton sarees for daily wear",
+      name: "Artisanal Cotton", // Updated name
+      image: "https://images.unsplash.com/photo-1506629905607-84c84b32eb42?w=800&h=1000&fit=crop&q=80", // Higher quality image
+      description: "Comfortable cotton sarees for refined daily elegance.", // Updated description
       count: "150+ Designs"
     },
     {
-      name: "Designer Collection",
-      image: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=400&h=500&fit=crop",
-      description: "Contemporary designs by renowned designers",
+      name: "Designer Weaves", // Updated name
+      image: "https://images.unsplash.com/photo-1583391733956-6c78276477e2?w=800&h=1000&fit=crop&q=80", // Higher quality image
+      description: "Contemporary masterpieces by renowned designers.", // Updated description
       count: "100+ Designs"
     },
     {
-      name: "Bridal Sarees",
-      image: "https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=400&h=500&fit=crop",
-      description: "Exquisite bridal collection for your big day",
+      name: "Bridal Splendor", // Updated name
+      image: "https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=800&h=1000&fit=crop&q=80", // Higher quality image
+      description: "Exquisite bridal collection to cherish for a lifetime.", // Updated description
       count: "80+ Designs"
     }
   ];
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [heroSlides.length]);
+  // useEffect for slideshow removed for static hero
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background text-foreground font-sans"> {/* Changed to bg-background */}
       <Header />
       
-      {/* Hero Section */}
-      <section className="relative h-[600px] overflow-hidden">
-        <AnimatePresence initial={false} custom={currentSlide}>
-          {heroSlides.map((slide, index) => (
-            index === currentSlide && ( // Only render the current slide for AnimatePresence to work correctly with array mapping
-            <motion.div
-              key={slide.title} // Use a unique key from the slide data
-              className="absolute inset-0"
-              custom={index}
-              initial="exit" // Start at exit state if not the first slide initially
-              animate="enter"
-              exit="exit"
-              variants={{
-                enter: { opacity: 1, transition: { duration: 1, ease: [0.48, 0.15, 0.25, 0.96] } },
-                exit: (custom) => ({ // custom prop can be used for more complex exit animations based on slide direction
-                  opacity: 0,
-                  transition: { duration: 1, ease: [0.48, 0.15, 0.25, 0.96] }
-                }),
-              }}
-              style={{
-                backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${slide.image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center'
-              }}
-            >
-              <div className="container mx-auto px-4 h-full flex items-center">
-                <motion.div
-                  className="text-white max-w-2xl"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.3, ease: "easeOut" } }}
-                  exit={{ opacity: 0, y: -20, transition: { duration: 0.4, ease: "easeIn" } }} // Optional: animate content out
-                >
-                  <h1 className="text-5xl md:text-6xl font-bold mb-4">
-                    {slide.title}
-                  </h1>
-                  <p className="text-xl md:text-2xl mb-8 text-gray-200">
-                    {slide.subtitle}
-                  </p>
-                  <Link to="/products">
-                    <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white">
-                      {slide.cta}
-                      <ArrowRight className="ml-2 w-5 h-5" />
-                    </Button>
-                  </Link>
-                </motion.div>
-              </div>
-            </motion.div>
-            )
-          ))}
-        </AnimatePresence>
-        
-        {/* Slide indicators */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          {heroSlides.map((_, index) => (
-            <button
-              key={index}
-              className={`w-3 h-3 rounded-full cursor-pointer transition-colors ${
-                index === currentSlide ? 'bg-white' : 'bg-white/50 hover:bg-white/75'
-              }`}
-              onClick={() => setCurrentSlide(index)}
-            />
-          ))}
+      {/* Hero Section - Simplified */}
+      <section
+        className="relative h-[75vh] min-h-[500px] bg-cover bg-center flex items-center justify-center text-center"
+        style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url(${heroData.image})` }}
+      >
+        <div className="container mx-auto px-4 z-10">
+          <div className="max-w-3xl mx-auto">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-white mb-6">
+              {heroData.title}
+            </h1>
+            <p className="text-lg md:text-xl text-gray-200 mb-10">
+              {heroData.subtitle}
+            </p>
+            <Link to="/products">
+              <Button size="lg" variant="default" className="bg-accent hover:bg-accent/90 text-accent-foreground text-base px-10 py-6 rounded-sm"> {/* Updated button style */}
+                {heroData.cta}
+                <ArrowRight className="ml-3 w-5 h-5" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <AnimatedSection className="py-16 bg-gray-50">
+      <section className="py-16 md:py-24 bg-muted"> {/* Changed bg, increased padding */}
         <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-              Why Choose Chaitanya Sarees?
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">
+              The Chaitanya Promise
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Experience the finest quality, authentic designs, and exceptional service 
-              that has made us India's trusted saree destination.
+            <p className="text-lg text-secondary max-w-2xl mx-auto">
+              Experience the pinnacle of quality, artistry, and service that defines our legacy.
             </p>
-          </motion.div>
+          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-              >
-                <Card className="text-center border-none shadow-lg hover:shadow-xl transition-shadow h-full">
-                  <CardContent className="p-8">
-                    <div className="flex justify-center mb-4">
-                      {feature.icon}
-                    </div>
-                    <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                      {feature.title}
-                    </h3>
-                    <p className="text-gray-600">
-                      {feature.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              </motion.div>
+              <Card key={index} className="text-center bg-background p-8 shadow-md border border-border hover:shadow-lg transition-shadow duration-300 rounded-sm"> {/* Updated card style */}
+                {/* CardContent is removed as padding is on Card now */}
+                <div className="flex justify-center mb-5">
+                  {feature.icon}
+                </div>
+                <h3 className="text-xl font-serif font-semibold text-foreground mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-sm text-secondary">
+                  {feature.description}
+                </p>
+              </Card>
             ))}
           </div>
         </div>
-      </AnimatedSection>
+      </section>
 
-      {/* Product Categories */}
-      <AnimatedSection className="py-16 bg-white">
+      {/* Product Categories Section */}
+      <section className="py-16 md:py-24 bg-background"> {/* Changed bg, increased padding */}
         <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-              Our Collections
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">
+              Curated Collections
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Discover our extensive range of sarees, from traditional silk to contemporary designs
+            <p className="text-lg text-secondary max-w-2xl mx-auto">
+              Explore our diverse range of sarees, each telling a unique story of tradition and artistry.
             </p>
-          </motion.div>
+          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {productCategories.map((category, index) => (
-               <motion.div
-                key={category.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-              >
-                <Card className="group overflow-hidden border-none shadow-lg hover:shadow-xl transition-all duration-300 h-full">
-                  <div className="relative overflow-hidden">
-                    <img
-                      src={category.image}
-                      alt={category.name}
-                      className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <span className="text-sm bg-red-600 px-2 py-1 rounded">
-                        {category.count}
-                      </span>
-                    </div>
+              <Card key={index} className="group overflow-hidden shadow-md border border-border hover:shadow-lg transition-shadow duration-300 rounded-sm bg-card"> {/* Updated card style */}
+                <div className="relative h-96 overflow-hidden"> {/* Fixed height for image container */}
+                  <img
+                    src={category.image}
+                    alt={category.name}
+                    className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105" // Smoother scale
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-75 group-hover:opacity-100 transition-opacity duration-300" /> {/* Subtle gradient */}
+                  <div className="absolute bottom-0 left-0 p-6 w-full">
+                    <span className="text-xs bg-primary text-primary-foreground px-3 py-1 rounded-full font-medium"> {/* Updated badge style */}
+                      {category.count}
+                    </span>
                   </div>
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                      {category.name}
-                    </h3>
-                    <p className="text-gray-600 mb-4">
-                      {category.description}
-                    </p>
-                    <Link to="/products">
-                      <Button variant="outline" className="w-full border-red-600 text-red-600 hover:bg-red-600 hover:text-white">
-                        View Collection
-                      </Button>
-                    </Link>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                </div>
+                <CardContent className="p-6">
+                  <h3 className="text-2xl font-serif font-semibold text-foreground mb-2 group-hover:text-primary transition-colors"> {/* Larger heading */}
+                    {category.name}
+                  </h3>
+                  <p className="text-sm text-secondary mb-4 h-16 overflow-hidden"> {/* Fixed height for description */}
+                    {category.description}
+                  </p>
+                  <Link to="/products" className="w-full">
+                    <Button variant="outline" className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground rounded-sm text-sm"> {/* Updated button style */}
+                      Explore Sarees
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
-      </AnimatedSection>
+      </section>
 
       {/* Testimonials Section */}
-      <AnimatedSection className="py-16 bg-red-50">
+      <section className="py-16 md:py-24 bg-muted"> {/* Changed bg, increased padding */}
         <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-              What Our Customers Say
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">
+              Voices of Elegance
             </h2>
-          </motion.div>
+            <p className="text-lg text-secondary max-w-2xl mx-auto">
+              Hear from our valued patrons who have embraced the Chaitanya experience.
+            </p>
+          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"> {/* Increased gap for lg */}
             {[
               {
                 name: "Priya Sharma",
                 rating: 5,
-                review: "Absolutely stunning sarees! The quality is exceptional and the designs are breathtaking. Will definitely shop again.",
-                location: "Mumbai"
+                review: "The Kanjivaram I purchased is a masterpiece. The craftsmanship is beyond compare, and I received so many compliments. A true heirloom piece!",
+                location: "Mumbai, India"
               },
               {
                 name: "Anjali Reddy",
                 rating: 5,
-                review: "Perfect bridal collection. Got my wedding saree from here and received countless compliments. Highly recommended!",
-                location: "Hyderabad"
+                review: "My bridal saree from Chaitanya was a dream come true. The attention to detail and personalized service made my special day even more memorable.",
+                location: "Hyderabad, India"
               },
               {
                 name: "Meera Patel",
                 rating: 5,
-                review: "Great variety and excellent customer service. The silk sarees are authentic and beautifully crafted.",
-                location: "Delhi"
+                review: "I've been a loyal customer for years. The quality of their silk and cotton sarees is consistently excellent. Highly recommended for authentic weaves.",
+                location: "Delhi, India"
               }
             ].map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-              >
-                <Card className="border-none shadow-lg h-full">
-                  <CardContent className="p-6">
-                    <div className="flex items-center mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                      ))}
-                    </div>
-                    <p className="text-gray-600 mb-4 italic">
-                      "{testimonial.review}"
-                    </p>
-                    <div>
-                      <p className="font-semibold text-gray-800">{testimonial.name}</p>
-                      <p className="text-sm text-gray-500">{testimonial.location}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+              <Card key={index} className="bg-background p-8 shadow-md border border-border hover:shadow-lg transition-shadow duration-300 rounded-sm flex flex-col"> {/* Updated card style */}
+                {/* CardContent is removed as padding is on Card now */}
+                <div className="flex items-center mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-accent text-accent" /> // Updated star color
+                  ))}
+                </div>
+                <p className="text-base text-secondary mb-6 italic flex-grow"> {/* Increased bottom margin */}
+                  "{testimonial.review}"
+                </p>
+                <div className="mt-auto pt-4 border-t border-border"> {/* Pushes author to bottom */}
+                  <p className="text-lg font-serif font-semibold text-foreground">{testimonial.name}</p>
+                  <p className="text-sm text-muted-foreground">{testimonial.location}</p>
+                </div>
+              </Card>
             ))}
           </div>
         </div>
-      </AnimatedSection>
+      </section>
 
       {/* CTA Section */}
-      <AnimatedSection className="py-16 bg-gradient-to-r from-red-600 to-pink-600 text-white">
+      <section className="py-16 md:py-24 bg-primary text-primary-foreground"> {/* Changed bg and text color */}
         <div className="container mx-auto px-4 text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5 }}
-            className="text-3xl md:text-4xl font-bold mb-4"
-          >
-            Ready to Find Your Perfect Saree?
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-xl mb-8 text-red-100"
-          >
-            Browse our complete collection or visit our showroom for a personalized experience
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
+          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6"> {/* Increased bottom margin */}
+            Begin Your Journey of Elegance
+          </h2>
+          <p className="text-lg md:text-xl opacity-90 mb-10 max-w-2xl mx-auto"> {/* Adjusted opacity and margin */}
+            Discover the perfect saree that reflects your unique style and grace. <br className="hidden sm:block" />
+            Our collections await your discerning eye.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/products">
-              <Button size="lg" variant="secondary" className="bg-white text-red-600 hover:bg-gray-100">
-                Browse Collection
-                <ArrowRight className="ml-2 w-5 h-5" />
+              <Button size="lg" variant="secondary" className="bg-accent hover:bg-accent/90 text-accent-foreground text-base px-10 py-6 rounded-sm"> {/* Updated button style */}
+                Shop All Collections
+                <ArrowRight className="ml-3 w-5 h-5" />
               </Button>
             </Link>
             <Link to="/contact">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-red-600">
-                Visit Showroom
-                <Heart className="ml-2 w-5 h-5" />
+               <Button size="lg" variant="outline" className="border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground hover:text-primary text-base px-10 py-6 rounded-sm"> {/* Updated button style */}
+                Plan Your Visit
+                <Heart className="ml-3 w-5 h-5" />
               </Button>
             </Link>
-          </motion.div>
+          </div>
         </div>
-      </AnimatedSection>
+      </section>
 
       <Footer />
     </div>

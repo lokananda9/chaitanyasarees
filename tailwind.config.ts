@@ -20,7 +20,8 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				sans: ['Poppins', 'sans-serif'],
+				sans: ['Montserrat', 'sans-serif'],
+				serif: ['Playfair Display', 'serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
@@ -75,9 +76,9 @@ export default {
 				}
 			},
 			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				lg: 'var(--radius)', /* This will pick up 0.25rem from :root */
+				md: 'calc(var(--radius) - 0.05rem)', /* Adjusted for smaller base radius */
+				sm: 'calc(var(--radius) - 0.1rem)'  /* Adjusted for smaller base radius */
 			},
 			keyframes: {
 				'accordion-down': {
