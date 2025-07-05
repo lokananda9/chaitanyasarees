@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion'; // Added framer-motion
 import { Search, Filter, Grid, List, Star, Heart, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -126,57 +127,91 @@ const Products = () => {
     }
   };
 
-  const ProductCard = ({ product }: { product: typeof products[0] }) => (
-    <Card className="group overflow-hidden border-none shadow-lg hover:shadow-xl transition-all duration-300">
-      <div className="relative overflow-hidden">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
-        />
-        <div className="absolute top-4 left-4">
-          {product.badge && (
-            <Badge className={getBadgeColor(product.badge)}>
-              {product.badge}
-            </Badge>
-          )}
-        </div>
-        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Button size="sm" variant="secondary" className="rounded-full p-2">
-            <Heart size={16} />
-          </Button>
-        </div>
-        <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white">
-            <ShoppingCart size={16} className="mr-1" />
-            Add to Cart
-          </Button>
-        </div>
-      </div>
-      <CardContent className="p-4">
-        <div className="flex items-center mb-2">
-          <div className="flex items-center">
-            <Star size={14} className="fill-yellow-400 text-yellow-400" />
-            <span className="text-sm text-gray-600 ml-1">{product.rating} ({product.reviews} reviews)</span>
+  const ProductCard = ({ product, index }: { product: typeof products[0], index: number }) => {
+    const cardHoverVariants = {
+      rest: { y: 0, transition: { type: "spring", stiffness: 300, damping: 20 } },
+      hover: { y: -8, transition: { type: "spring", stiffness: 300, damping: 20 } }
+    };
+
+    const actionButtonVariants = {
+      rest: { opacity: 0, y: 10, transition: { duration: 0.2, ease: "easeInOut" } },
+      hover: { opacity: 1, y: 0, transition: { duration: 0.2, ease: "easeInOut", delay: 0.1 } }
+    };
+
+    const wishlistButtonVariants = {
+      rest: { opacity: 0, x: 10, transition: { duration: 0.2, ease: "easeInOut" } },
+      hover: { opacity: 1, x: 0, transition: { duration: 0.2, ease: "easeInOut", delay: 0.05 } }
+    };
+
+    return (
+      <motion.div // Scroll-reveal and hover orchestrator for each card
+        className="h-full group" // Added group here for potential group-hover children if needed
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.5, delay: index * 0.05 }}
+        variants={cardHoverVariants} // Apply hover effect (lift)
+        whileHover="hover"
+      >
+        <Card className="overflow-hidden border-none shadow-lg hover:shadow-xl transition-shadow duration-300 h-full relative">
+          <div className="relative overflow-hidden"> {/* Image container */}
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" // Slightly reduced scale, kept group-hover
+            />
+            <div className="absolute top-4 left-4 z-10">
+              {product.badge && (
+                <Badge className={`${getBadgeColor(product.badge)} border border-white/50`}> {/* Added slight border to badge */}
+                  {product.badge}
+                </Badge>
+              )}
+            </div>
+            {/* Wishlist button */}
+            <motion.div className="absolute top-4 right-4 z-10" variants={wishlistButtonVariants}>
+              <Button size="icon" variant="secondary" className="rounded-full p-2 h-9 w-9 bg-white/80 hover:bg-white shadow-md">
+                <Heart size={16} />
+              </Button>
+            </motion.div>
+            {/* Add to Cart Button */}
+            <motion.div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/50 to-transparent" variants={actionButtonVariants}>
+              <Button size="sm" className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold">
+                <ShoppingCart size={16} className="mr-2" />
+                Add to Cart
+              </Button>
+            </motion.div>
           </div>
-        </div>
-        <h3 className="font-semibold text-gray-800 mb-2 line-clamp-2">
-          {product.name}
-        </h3>
-        <div className="flex items-center space-x-2 mb-2">
-          <span className="text-lg font-bold text-red-600">₹{product.price.toLocaleString()}</span>
-          <span className="text-sm text-gray-500 line-through">₹{product.originalPrice.toLocaleString()}</span>
-          <span className="text-sm text-green-600 font-medium">
-            {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% off
-          </span>
-        </div>
-        <div className="text-sm text-gray-600">
-          <p><span className="font-medium">Fabric:</span> {product.fabric}</p>
-          <p><span className="font-medium">Work:</span> {product.work}</p>
-        </div>
-      </CardContent>
-    </Card>
-  );
+          <CardContent className="p-4">
+            <div className="flex items-center mb-2">
+          <div className="flex items-center">
+              <Star size={14} className="fill-yellow-400 text-yellow-400" />
+              <span className="text-sm text-gray-600 ml-1">{product.rating} ({product.reviews} reviews)</span>
+            </div>
+          </div>
+          <h3 className="font-semibold text-gray-800 mb-2 line-clamp-2 h-12"> {/* Fixed height for name */}
+            {product.name}
+          </h3>
+          <div className="flex items-baseline justify-between mb-2"> {/* Adjusted alignment */}
+            <div>
+              <span className="text-xl font-bold text-red-600">₹{product.price.toLocaleString()}</span>
+              {product.originalPrice > product.price && (
+                <span className="text-sm text-gray-500 line-through ml-2">₹{product.originalPrice.toLocaleString()}</span>
+              )}
+            </div>
+            {product.originalPrice > product.price && (
+              <span className="text-sm text-green-600 font-medium bg-green-100 px-2 py-0.5 rounded">
+                {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% off
+              </span>
+            )}
+          </div>
+          <div className="text-xs text-gray-500 space-y-1"> {/* Smaller text for details */}
+            <p><span className="font-medium text-gray-600">Fabric:</span> {product.fabric}</p>
+            <p><span className="font-medium text-gray-600">Work:</span> {product.work}</p>
+          </div>
+        </CardContent>
+      </motion.div> {/* This was Card, now it's the motion.div wrapper */}
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -310,15 +345,18 @@ const Products = () => {
               </p>
             </div>
 
-            <div className={`grid gap-6 ${
-              viewMode === 'grid' 
-                ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' 
-                : 'grid-cols-1'
-            }`}>
-              {filteredProducts.map(product => (
-                <ProductCard key={product.id} product={product} />
+            <motion.div // Added motion.div for potential layout animations
+              layout // Enable layout animations
+              className={`grid gap-6 ${
+                viewMode === 'grid'
+                  ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' // Adjusted sm breakpoint
+                  : 'grid-cols-1'
+              }`}
+            >
+              {filteredProducts.map((product, index) => ( // Added index
+                <ProductCard key={product.id} product={product} index={index} /> // Passed index
               ))}
-            </div>
+            </motion.div>
 
             {/* Pagination */}
             <div className="flex justify-center mt-12">

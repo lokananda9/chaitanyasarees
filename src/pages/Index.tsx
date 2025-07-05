@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Star, Users, Award, Truck, Shield, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import AnimatedSection from '@/components/AnimatedSection'; // Import AnimatedSection
 
 const Index = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -93,44 +95,62 @@ const Index = () => {
       
       {/* Hero Section */}
       <section className="relative h-[600px] overflow-hidden">
-        {heroSlides.map((slide, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentSlide ? 'opacity-100' : 'opacity-0'
-            }`}
-            style={{
-              backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${slide.image})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center'
-            }}
-          >
-            <div className="container mx-auto px-4 h-full flex items-center">
-              <div className="text-white max-w-2xl">
-                <h1 className="text-5xl md:text-6xl font-bold mb-4">
-                  {slide.title}
-                </h1>
-                <p className="text-xl md:text-2xl mb-8 text-gray-200">
-                  {slide.subtitle}
-                </p>
-                <Link to="/products">
-                  <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white">
-                    {slide.cta}
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </Link>
+        <AnimatePresence initial={false} custom={currentSlide}>
+          {heroSlides.map((slide, index) => (
+            index === currentSlide && ( // Only render the current slide for AnimatePresence to work correctly with array mapping
+            <motion.div
+              key={slide.title} // Use a unique key from the slide data
+              className="absolute inset-0"
+              custom={index}
+              initial="exit" // Start at exit state if not the first slide initially
+              animate="enter"
+              exit="exit"
+              variants={{
+                enter: { opacity: 1, transition: { duration: 1, ease: [0.48, 0.15, 0.25, 0.96] } },
+                exit: (custom) => ({ // custom prop can be used for more complex exit animations based on slide direction
+                  opacity: 0,
+                  transition: { duration: 1, ease: [0.48, 0.15, 0.25, 0.96] }
+                }),
+              }}
+              style={{
+                backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${slide.image})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
+            >
+              <div className="container mx-auto px-4 h-full flex items-center">
+                <motion.div
+                  className="text-white max-w-2xl"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.3, ease: "easeOut" } }}
+                  exit={{ opacity: 0, y: -20, transition: { duration: 0.4, ease: "easeIn" } }} // Optional: animate content out
+                >
+                  <h1 className="text-5xl md:text-6xl font-bold mb-4">
+                    {slide.title}
+                  </h1>
+                  <p className="text-xl md:text-2xl mb-8 text-gray-200">
+                    {slide.subtitle}
+                  </p>
+                  <Link to="/products">
+                    <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white">
+                      {slide.cta}
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Button>
+                  </Link>
+                </motion.div>
               </div>
-            </div>
-          </div>
-        ))}
+            </motion.div>
+            )
+          ))}
+        </AnimatePresence>
         
         {/* Slide indicators */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
           {heroSlides.map((_, index) => (
             <button
               key={index}
-              className={`w-3 h-3 rounded-full transition-colors ${
-                index === currentSlide ? 'bg-white' : 'bg-white/50'
+              className={`w-3 h-3 rounded-full cursor-pointer transition-colors ${
+                index === currentSlide ? 'bg-white' : 'bg-white/50 hover:bg-white/75'
               }`}
               onClick={() => setCurrentSlide(index)}
             />
@@ -139,9 +159,15 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 bg-gray-50">
+      <AnimatedSection className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-center mb-12"
+          >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
               Why Choose Chaitanya Sarees?
             </h2>
@@ -149,83 +175,111 @@ const Index = () => {
               Experience the finest quality, authentic designs, and exceptional service 
               that has made us India's trusted saree destination.
             </p>
-          </div>
+          </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="text-center border-none shadow-lg hover:shadow-xl transition-shadow">
-                <CardContent className="p-8">
-                  <div className="flex justify-center mb-4">
-                    {feature.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-600">
-                    {feature.description}
-                  </p>
-                </CardContent>
-              </Card>
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+              >
+                <Card className="text-center border-none shadow-lg hover:shadow-xl transition-shadow h-full">
+                  <CardContent className="p-8">
+                    <div className="flex justify-center mb-4">
+                      {feature.icon}
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                      {feature.title}
+                    </h3>
+                    <p className="text-gray-600">
+                      {feature.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Product Categories */}
-      <section className="py-16 bg-white">
+      <AnimatedSection className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-center mb-12"
+          >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
               Our Collections
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Discover our extensive range of sarees, from traditional silk to contemporary designs
             </p>
-          </div>
+          </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {productCategories.map((category, index) => (
-              <Card key={index} className="group overflow-hidden border-none shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="relative overflow-hidden">
-                  <img
-                    src={category.image}
-                    alt={category.name}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <span className="text-sm bg-red-600 px-2 py-1 rounded">
-                      {category.count}
-                    </span>
+               <motion.div
+                key={category.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+              >
+                <Card className="group overflow-hidden border-none shadow-lg hover:shadow-xl transition-all duration-300 h-full">
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={category.image}
+                      alt={category.name}
+                      className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+                    <div className="absolute bottom-4 left-4 text-white">
+                      <span className="text-sm bg-red-600 px-2 py-1 rounded">
+                        {category.count}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                    {category.name}
-                  </h3>
-                  <p className="text-gray-600 mb-4">
-                    {category.description}
-                  </p>
-                  <Link to="/products">
-                    <Button variant="outline" className="w-full border-red-600 text-red-600 hover:bg-red-600 hover:text-white">
-                      View Collection
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
+                  <CardContent className="p-6">
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                      {category.name}
+                    </h3>
+                    <p className="text-gray-600 mb-4">
+                      {category.description}
+                    </p>
+                    <Link to="/products">
+                      <Button variant="outline" className="w-full border-red-600 text-red-600 hover:bg-red-600 hover:text-white">
+                        View Collection
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* Testimonials Section */}
-      <section className="py-16 bg-red-50">
+      <AnimatedSection className="py-16 bg-red-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-center mb-12"
+          >
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
               What Our Customers Say
             </h2>
-          </div>
+          </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -248,37 +302,63 @@ const Index = () => {
                 location: "Delhi"
               }
             ].map((testimonial, index) => (
-              <Card key={index} className="border-none shadow-lg">
-                <CardContent className="p-6">
-                  <div className="flex items-center mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-gray-600 mb-4 italic">
-                    "{testimonial.review}"
-                  </p>
-                  <div>
-                    <p className="font-semibold text-gray-800">{testimonial.name}</p>
-                    <p className="text-sm text-gray-500">{testimonial.location}</p>
-                  </div>
-                </CardContent>
-              </Card>
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+              >
+                <Card className="border-none shadow-lg h-full">
+                  <CardContent className="p-6">
+                    <div className="flex items-center mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                      ))}
+                    </div>
+                    <p className="text-gray-600 mb-4 italic">
+                      "{testimonial.review}"
+                    </p>
+                    <div>
+                      <p className="font-semibold text-gray-800">{testimonial.name}</p>
+                      <p className="text-sm text-gray-500">{testimonial.location}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </AnimatedSection>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-red-600 to-pink-600 text-white">
+      <AnimatedSection className="py-16 bg-gradient-to-r from-red-600 to-pink-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5 }}
+            className="text-3xl md:text-4xl font-bold mb-4"
+          >
             Ready to Find Your Perfect Saree?
-          </h2>
-          <p className="text-xl mb-8 text-red-100">
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-xl mb-8 text-red-100"
+          >
             Browse our complete collection or visit our showroom for a personalized experience
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
             <Link to="/products">
               <Button size="lg" variant="secondary" className="bg-white text-red-600 hover:bg-gray-100">
                 Browse Collection
@@ -291,9 +371,9 @@ const Index = () => {
                 <Heart className="ml-2 w-5 h-5" />
               </Button>
             </Link>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </AnimatedSection>
 
       <Footer />
     </div>
