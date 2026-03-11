@@ -28,6 +28,12 @@ db.exec(`
     sort_order INTEGER NOT NULL DEFAULT 0,
     FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE
   );
+
+  CREATE TABLE IF NOT EXISTS site_content (
+    content_key TEXT PRIMARY KEY,
+    value TEXT NOT NULL,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  );
 `);
 
 export default db;

@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { Plus, Settings2, Trash2, Image as ImageIcon } from "lucide-react";
+import {
+  FileText,
+  Image as ImageIcon,
+  Plus,
+  Settings2,
+  Trash2,
+} from "lucide-react";
 import { getCollections, deleteCollection } from "@/app/actions/collection-actions";
 
 export default async function AdminDashboard() {
@@ -7,22 +13,54 @@ export default async function AdminDashboard() {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-[#241712]">
             Collections
           </h1>
           <p className="mt-2 text-sm text-stone-500">
-            Manage your boutique's signature edits and their image galleries.
+            Manage your boutique&apos;s collection cards, image galleries, and the full site copy.
           </p>
         </div>
-        <Link
-          href="/admin/collections/new"
-          className="inline-flex items-center gap-2 rounded-full bg-[#8d4a54] px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-[#6e3842]"
-        >
-          <Plus className="h-4 w-4" />
-          New Collection
-        </Link>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href="/admin/content"
+            className="inline-flex items-center gap-2 rounded-full border border-[#8d4a54]/20 bg-white px-4 py-2.5 text-sm font-semibold text-[#8d4a54] transition-all hover:border-[#8d4a54]/40 hover:bg-[#8d4a54]/5"
+          >
+            <FileText className="h-4 w-4" />
+            Edit Website Copy
+          </Link>
+          <Link
+            href="/admin/collections/new"
+            className="inline-flex items-center gap-2 rounded-full bg-[#8d4a54] px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-[#6e3842]"
+          >
+            <Plus className="h-4 w-4" />
+            New Collection
+          </Link>
+        </div>
+      </div>
+
+      <div className="rounded-[2rem] border border-[#8d4a54]/15 bg-[linear-gradient(145deg,rgba(141,74,84,0.06),rgba(255,255,255,0.9))] p-6 shadow-sm">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="max-w-2xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8d4a54]">
+              Website Copy Control
+            </p>
+            <h2 className="mt-2 text-xl font-semibold text-[#241712]">
+              Update every public text block from one admin page.
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-stone-600">
+              Header labels, hero copy, about text, visit details, footer messaging, and collection page template text now live under the website copy editor.
+            </p>
+          </div>
+          <Link
+            href="/admin/content"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#241712] px-5 py-3 text-sm font-semibold text-white transition-all hover:bg-[#8d4a54]"
+          >
+            <FileText className="h-4 w-4" />
+            Open Copy Editor
+          </Link>
+        </div>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

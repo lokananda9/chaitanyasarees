@@ -1,13 +1,19 @@
 "use client";
 
-import { ArrowRight, PhoneCall } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { Reveal } from "@/components/reveal";
-import { SectionHeading } from "@/components/section-heading";
 import { Collection } from "@/app/actions/collection-actions";
+import type { SiteContent } from "@/lib/site-content";
 
-export function FeaturedCollections({ collections }: { collections: Collection[] }) {
+export function FeaturedCollections({
+  collections,
+  content,
+}: {
+  collections: Collection[];
+  content: SiteContent;
+}) {
   const shouldReduceMotion = useReducedMotion();
 
   // Sort collections to match created order or some specific metric if needed.
@@ -24,14 +30,14 @@ export function FeaturedCollections({ collections }: { collections: Collection[]
             <div className="inline-flex items-center gap-2 rounded-full border border-stone-200 bg-white px-4 py-1.5 shadow-sm">
               <span className="h-2 w-2 rounded-full bg-[#8d4a54] animate-pulse"></span>
               <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#8d4a54]">
-                Featured Collections
+                {content.collections_eyebrow}
               </p>
             </div>
-            <h2 className="font-display mt-6 text-4xl leading-tight text-[#241712] sm:text-5xl lg:text-6xl">
-              Signature edits for every celebration and every day.
+            <h2 className="font-display mt-6 whitespace-pre-line text-4xl leading-tight text-[#241712] sm:text-5xl lg:text-6xl">
+              {content.collections_title}
             </h2>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600">
-              Each collection is carefully crafted to help you find the perfect look for any occasion.
+            <p className="mx-auto mt-6 max-w-2xl whitespace-pre-line text-lg text-stone-600">
+              {content.collections_description}
             </p>
           </Reveal>
         </div>
@@ -61,7 +67,7 @@ export function FeaturedCollections({ collections }: { collections: Collection[]
               <div className="relative z-10 flex h-full flex-col justify-between gap-8">
                 <div className="max-w-xl">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#8d4a54]">
-                    Collection 0{index + 1}
+                    {content.collections_card_prefix} {String(index + 1).padStart(2, "0")}
                   </p>
                   <h3 className="font-display mt-4 text-4xl leading-none text-[#241712] sm:text-5xl">
                     {collection.title}
@@ -69,9 +75,11 @@ export function FeaturedCollections({ collections }: { collections: Collection[]
                   <p className="mt-4 max-w-xl text-base leading-7 text-stone-600">
                     {collection.summary}
                   </p>
-                  <p className="mt-5 text-sm font-medium italic text-stone-700">
-                    {collection.note}
-                  </p>
+                  {collection.note ? (
+                    <p className="mt-5 text-sm font-medium italic text-stone-700">
+                      {collection.note}
+                    </p>
+                  ) : null}
                 </div>
 
                 <div className="flex h-full flex-col justify-between gap-8">
@@ -100,7 +108,7 @@ export function FeaturedCollections({ collections }: { collections: Collection[]
           
           {collections.length === 0 && (
              <div className="col-span-full py-12 text-center text-stone-500 bg-stone-50/50 rounded-3xl border border-stone-200">
-                <p>No collections available at the moment.</p>
+                <p>{content.collections_empty_message}</p>
              </div>
           )}
         </div>

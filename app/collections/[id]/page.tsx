@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, Clock3, MapPin } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getCollectionById, getCollectionImages } from "@/app/actions/collection-actions";
+import { getSiteContent } from "@/lib/site-content";
 
 export default async function CollectionPage({
   params,
@@ -10,7 +11,10 @@ export default async function CollectionPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const collection = await getCollectionById(id);
+  const [collection, siteContent] = await Promise.all([
+    getCollectionById(id),
+    getSiteContent(),
+  ]);
 
   if (!collection) {
     notFound();
@@ -30,17 +34,17 @@ export default async function CollectionPage({
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#8d4a54]/10 transition-colors group-hover:bg-stone-100">
               <ArrowLeft className="h-4 w-4" />
             </span>
-            Back to Collections
+            {siteContent.collection_back_label}
           </Link>
 
           <div className="hidden items-center gap-6 sm:flex">
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-stone-600">
               <Clock3 className="h-4 w-4 text-[#8d4a54]" />
-              9 AM - 9 PM
+              {siteContent.header_hours_badge}
             </div>
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-stone-600">
               <MapPin className="h-4 w-4 text-[#8d4a54]" />
-              Tadipatri
+              {siteContent.site_location_short}
             </div>
           </div>
         </div>
@@ -50,7 +54,7 @@ export default async function CollectionPage({
       <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-20">
         <div className="mx-auto max-w-3xl text-center">
           <p className="inline-flex items-center rounded-full bg-[#8d4a54]/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-[#8d4a54]">
-            {collection.note || "Curated Edit"}
+            {collection.note || siteContent.collection_default_note}
           </p>
           <h1 className="font-display mt-8 text-5xl leading-tight text-[#241712] sm:text-6xl lg:text-7xl">
             {collection.title}
@@ -75,8 +79,8 @@ export default async function CollectionPage({
         <div className="mt-16 sm:mt-24">
           {images.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-[2.5rem] border border-dashed border-[#8d4a54]/30 bg-white/50 py-20 text-center">
-               <h3 className="font-display text-2xl text-[#241712]">Gallery empty</h3>
-               <p className="mt-2 text-stone-500">More collection photos coming soon.</p>
+               <h3 className="font-display text-2xl text-[#241712]">{siteContent.collection_empty_title}</h3>
+               <p className="mt-2 text-stone-500">{siteContent.collection_empty_description}</p>
             </div>
           ) : (
              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

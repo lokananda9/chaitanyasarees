@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 
+import { getSiteContent } from "@/lib/site-content";
+
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -17,47 +19,43 @@ const manrope = Manrope({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-export const metadata: Metadata = {
-  title: "Chaitanya Sarees | Premium Saree Shop in Tadipatri",
-  description:
-    "Discover wedding, festival, party wear, and daily wear sarees at Chaitanya Sarees in Tadipatri, Andhra Pradesh.",
-  keywords: [
-    "Chaitanya Sarees",
-    "saree shop Tadipatri",
-    "wedding sarees",
-    "festival sarees",
-    "party wear sarees",
-    "daily wear sarees",
-    "sarees Andhra Pradesh",
-  ],
-  applicationName: "Chaitanya Sarees",
-  authors: [{ name: "Chaitanya Sarees" }],
-  category: "shopping",
-  creator: "Chaitanya Sarees",
-  formatDetection: {
-    telephone: true,
-    address: true,
-    email: false,
-  },
-  openGraph: {
-    title: "Chaitanya Sarees",
-    description:
-      "Your destination for stunning sarees in Tadipatri. Shop wedding, festival, party wear, and daily wear collections.",
-    locale: "en_IN",
-    siteName: "Chaitanya Sarees",
-    type: "website",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Chaitanya Sarees",
-    description:
-      "Elegant sarees for weddings, festivals, parties, and everyday beauty in Tadipatri.",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getSiteContent();
+
+  return {
+    title: content.seo_title || content.site_name,
+    description: content.seo_description,
+    keywords: content.seo_keywords
+      .split(",")
+      .map((keyword) => keyword.trim())
+      .filter(Boolean),
+    applicationName: content.site_name,
+    authors: [{ name: content.site_name }],
+    category: "shopping",
+    creator: content.site_name,
+    formatDetection: {
+      telephone: true,
+      address: true,
+      email: false,
+    },
+    openGraph: {
+      title: content.og_title || content.site_name,
+      description: content.og_description || content.seo_description,
+      locale: "en_IN",
+      siteName: content.site_name,
+      type: "website",
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: content.twitter_title || content.site_name,
+      description: content.twitter_description || content.seo_description,
+    },
+  };
+}
 
 export const viewport: Viewport = {
   colorScheme: "light",

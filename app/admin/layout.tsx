@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, LogOut, Settings } from "lucide-react";
+import { FileText, LayoutDashboard, LogOut, Settings } from "lucide-react";
 import { logoutAction } from "@/app/actions/auth-actions";
 
 export default function AdminLayout({
@@ -45,6 +45,19 @@ export default function AdminLayout({
               >
                 <LayoutDashboard className="h-5 w-5 shrink-0" />
                 Manage Collections
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/admin/content"
+                className={`group flex items-center gap-x-3 rounded-xl p-3 text-sm font-medium transition-colors ${
+                  pathname === "/admin/content"
+                    ? "bg-[#8d4a54]/10 text-[#8d4a54]"
+                    : "text-stone-600 hover:bg-stone-100 hover:text-stone-900"
+                }`}
+              >
+                <FileText className="h-5 w-5 shrink-0" />
+                Edit Website Copy
               </Link>
             </li>
             <li>

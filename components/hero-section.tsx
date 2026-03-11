@@ -3,16 +3,16 @@
 import Image from "next/image";
 import { ArrowRight, Clock3, MapPin, MessageCircle, Sparkles } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
+import type { SiteContent } from "@/lib/site-content";
 
-const stats = [
-  { label: "Collections", value: "5 Curated" },
-  { label: "Occasions", value: "Wedding to Daily" },
-  { label: "Location", value: "Tadipatri" },
-  { label: "Hours", value: "9 AM – 9 PM" },
-];
-
-export function HeroSection() {
+export function HeroSection({ content }: { content: SiteContent }) {
   const shouldReduceMotion = useReducedMotion();
+  const stats = [
+    { label: content.hero_stat_1_label, value: content.hero_stat_1_value },
+    { label: content.hero_stat_2_label, value: content.hero_stat_2_value },
+    { label: content.hero_stat_3_label, value: content.hero_stat_3_value },
+    { label: content.hero_stat_4_label, value: content.hero_stat_4_value },
+  ];
 
   return (
     <section
@@ -41,16 +41,16 @@ export function HeroSection() {
             >
               <div className="glass-panel inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm text-stone-700">
                 <Sparkles className="h-4 w-4 text-[#8d4a54]" />
-                Premium Saree Boutique · Tadipatri
+                {content.hero_badge}
               </div>
 
               <h1 className="font-display mt-8 text-[4.4rem] leading-[0.86] text-[#241712] sm:text-[5.5rem] lg:text-[7.2rem]">
-                Chaitanya
-                <span className="block text-[#8d4a54]">Sarees</span>
+                {content.hero_title_line1}
+                <span className="block text-[#8d4a54]">{content.hero_title_line2}</span>
               </h1>
 
               <p className="mt-6 max-w-xl text-xl leading-9 text-stone-700 sm:text-2xl">
-                Beautiful sarees for weddings, festivals, parties, and everyday elegance.
+                {content.hero_description}
               </p>
 
               <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -58,24 +58,24 @@ export function HeroSection() {
                   href="#collections"
                   className="inline-flex items-center gap-2 rounded-full bg-[#8d4a54] px-7 py-4 text-sm font-semibold tracking-wide text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#6e3842] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8d4a54] focus-visible:ring-offset-2"
                 >
-                  Explore Collections
+                  {content.hero_primary_cta}
                   <ArrowRight className="h-4 w-4" />
                 </a>
                 <a
-                  href="https://wa.me/919908220032?text=Hi%20Chaitanya%20Sarees%2C%20I%20would%20like%20to%20know%20more%20about%20your%20collections."
+                  href={content.contact_whatsapp_url}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 rounded-full border border-[#8d4a54]/20 bg-white/70 px-7 py-4 text-sm font-semibold text-[#241712] transition-all duration-300 hover:-translate-y-1 hover:border-[#8d4a54]/40 hover:text-[#8d4a54] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8d4a54] focus-visible:ring-offset-2"
                 >
-                  WhatsApp Us
+                  {content.hero_secondary_cta}
                   <MessageCircle className="h-4 w-4" />
                 </a>
               </div>
 
               {/* Stats strip */}
               <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-4">
-                {stats.map((stat) => (
-                  <div key={stat.label} className="soft-card rounded-[1.5rem] px-4 py-4">
+                {stats.map((stat, index) => (
+                  <div key={`${stat.label}-${index}`} className="soft-card rounded-[1.5rem] px-4 py-4">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#8d4a54]">{stat.label}</p>
                     <p className="mt-2 text-sm font-semibold text-[#241712]">{stat.value}</p>
                   </div>
@@ -97,10 +97,10 @@ export function HeroSection() {
                   {/* Headline card */}
                   <div className="absolute left-0 top-6 z-10 w-[42%] rounded-[1.8rem] border border-white/40 bg-[rgba(245,231,222,0.72)] p-4 backdrop-blur-md">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#8d4a54]">
-                      Chaitanya Sarees
+                      {content.hero_card_eyebrow}
                     </p>
-                    <p className="mt-3 font-display text-2xl leading-tight text-[#241712]">
-                      Draped in tradition, styled for today.
+                    <p className="mt-3 whitespace-pre-line font-display text-2xl leading-tight text-[#241712]">
+                      {content.hero_card_title}
                     </p>
                   </div>
 
@@ -108,7 +108,7 @@ export function HeroSection() {
                   <div className="absolute right-0 top-8 h-[68%] w-[70%] overflow-hidden rounded-[2rem] border border-white/14 shadow-[0_28px_60px_rgba(0,0,0,0.22)]">
                     <Image
                       src="/hero-main-sarees.png"
-                      alt="Chaitanya Sarees featured collection"
+                      alt={`${content.site_name} featured collection`}
                       fill
                       priority
                       sizes="(max-width: 1024px) 100vw, 42vw"
@@ -133,7 +133,7 @@ export function HeroSection() {
                     <div className="self-start rounded-[1.4rem] border border-[#8d4a54]/22 bg-[rgba(245,232,223,0.72)] px-3 py-2 backdrop-blur-md">
                       <div className="flex items-center gap-2 text-xs font-medium text-stone-700">
                         <Clock3 className="h-3.5 w-3.5 text-[#8d4a54]" />
-                        9:00 AM – 9:00 PM
+                        {content.store_hours_display}
                       </div>
                     </div>
 
@@ -142,10 +142,10 @@ export function HeroSection() {
                         <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#8d4a54]" />
                         <div>
                           <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#8d4a54]">
-                            Visit Us
+                            {content.hero_visit_label}
                           </p>
-                          <p className="mt-1 text-xs leading-5 text-stone-700">
-                            Chaitanya Sarees, Tadipatri
+                          <p className="mt-1 whitespace-pre-line text-xs leading-5 text-stone-700">
+                            {content.hero_visit_text}
                           </p>
                         </div>
                       </div>
